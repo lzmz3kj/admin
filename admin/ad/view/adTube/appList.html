@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<!--[if IE 9]>         <html class="no-js lt-ie10" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <title>{notempty name='viewname'}{$viewname}{/notempty}列表</title>
+
+    <!--robots用来告诉搜索机器人哪些页面需要索引，哪些页面不需要索引。content的参数有all,none,index,noindex,follow,nofollow。默认是all。-->
+    <meta name="robots" content="noindex, nofollow">
+    <!--viewport用来兼容手机网页-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- END 网页内容 -->
+    <style>
+        .tbody-img{width: 80px}
+    </style>
+    {include file="admin@public/header" /}
+    <!-- 网页内容 -->
+    <div id="page-content">
+        <!-- 标题 -->
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1>{notempty name='viewname'}{$viewname}{/notempty}列表</h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>{notempty name='viewname'}{$viewname}{/notempty}列表</li>
+                            <li><a href="{:url('/')}">首页</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END 标题 -->
+
+        <!-- 内容 -->
+        <div class="block full">
+            <div class="block-title">
+                <ul class="nav nav-tabs" >
+                    <li {eq name='base' value='Discuzx'}class="active"{/eq}><a href="{:url('adAppList',['base' => 'Discuzx'])}">论坛</a></li>
+                    <li {eq name='base' value='ClassAd'}class="active"{/eq}><a href="{:url('adAppList',['base' => 'ClassAd'])}">分类广告</a></li>
+                </ul>
+            </div>
+            <!-- 搜索 -->
+            <div class="row">
+                <div class="col-xs-12  col-md-10 push-bit-top">
+                    <div class="dataTables_filter pull-left">
+                        {foreach $sourceList as $k => $v}
+                        <a href="{:url('adAppList',['base' => $base,'source' => $k])}" class="btn btn-effect-ripple btn-default {eq name='source' value='$k'}active{/eq}">{$v}</a>
+                        {/foreach}
+
+                    </div>
+                    <div class="pull-right">
+                        <a href="{:url('insertApp',['source' => $source ,'base' => $base])}" type="button" class="btn btn-success">添加{notempty name='viewname'}{$viewname}{/notempty}</a>
+                    </div>
+                </div>
+                <form action="{:url('adAppList')}" method="get" class="push" >
+                    <div class="col-xs-12  col-md-2 push-bit-top pull-right">
+                        <div class="input-group input-group-lg">
+                            <input type="hidden" name="base" value="{$base}">
+                            <input type="hidden" name="source" value="{$source}">
+                            <input type="search" id="search-term" name="search" class="form-control" placeholder="Search.." value="{notempty name='Think.get.search'}{$Think.get.search}{/notempty}">
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-effect-ripple btn-primary"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- 搜索 -->
+
+            <div class="table-responsive">
+                <div id="example-datatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+
+                    <table id="general-table" class="table table-striped table-borderless table-vcenter table-bordered dataTable no-footer text-center">
+                        <thead>
+                        <tr>
+                            <th style="width: 50px;" class="text-center">
+                                <label class="csscheckbox csscheckbox-primary">
+                                    <input type="checkbox"><span></span>
+                                </label>
+                            </th>
+                            <th class="text-center  col-md-1">id</th>
+                            <th class="text-center hidden-sm col-md-2">标题</th>
+                            <th class="text-center hidden-sm hidden-xs col-md-2" width="300">
+                                <div style="width: 300px!important;">
+                                    {if condition="($base == 'Discuzx')"} 国家
+                                    {elseif condition="($source == 3)"/}国家
+                                    {else /} 模块
+                                    {/if}
+                                </div>
+                              </th>
+                            <th class="text-center hidden-sm hidden-xs col-md-2">图片</th>
+                            <th class="text-center hidden-sm col-md-2">类型</th>
+                            <th class="text-center hidden-sm col-md-2">结束时间</th>
+                            <th class="text-center col-md-1"><i class="fa fa-flash"></i></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {notempty name='list'}
+                        {volist name='list' id='v'}
+                        <!--论坛数据-->
+                        {eq name='base' value='Discuzx'}
+                        <tr>
+                            <td class="text-center">
+                                <label class="csscheckbox csscheckbox-primary">
+                                    <input type="checkbox" name="id[]" value="{$v['id']}"><span></span>
+                                </label>
+                            </td>
+                            <td class="hidden-sm">{$v.id}</td>
+                            <td class="hidden-sm">{$v.title}</td>
+                            <td class="hidden-sm hidden-xs">{$v.country}</td>
+                            <td class="hidden-sm hidden-xs">
+                                {notempty name='v.pic.raw'}
+                                <a href="{$v.pic.url}" target="_blank"><img src="{$v.pic.url}" width="100"></a>
+                                {else/}
+                                无
+                                {/notempty}
+
+                            </td>
+                            <td class="hidden-sm hidden-xs">
+                            {if condition="($v.type == 1)"}
+                            {if condition="($v.source == 3) OR ($v.source == 7) OR ($v.source == 8) OR ($v.source == 14)"}
+                            帖子类型
+                            {else /}
+                            内部帖子跳转
+                            {/if}
+                            {/if}
+
+                            {if condition="($v.type == 2)"} 内部餐馆跳转 {/if}
+                            {if condition="($v.type == 3)"}
+                            {if condition="($v.source == 3) OR ($v.source == 7) OR ($v.source == 8) OR ($v.source == 9) OR ($v.source == 14)"}
+                            google广告
+                            {else/}
+                            浏览器跳转
+                            {/if}
+                            {/if}
+
+                            {if condition="($v.type == 4)"}纯图片广告{/if}
+                            {if condition="($v.type == 5)"}google广告{/if}
+                            {if condition="($v.type == 7)"}内部分类广告{/if}
+                        </td>
+
+                            <td class="hidden-sm">{$v.endtime}</td>
+                            <td>
+                                <a href="{:url('insertApp',['base' => $base,'source' => $source,'id' => $v.id])}" data-toggle="tooltip" title="" class="btn btn-effect-ripple btn-xs btn-info" style="overflow: hidden; position: relative;" data-original-title="编辑 {$v.title}"><i class="fa fa-pencil"></i></a>
+                            </td>
+                        </tr>
+                        {/eq}
+                        <!--论坛数据 END-->
+
+                        <!--论坛数据-->
+                        {eq name='base' value='ClassAd'}
+                        <tr>
+                            <td class="text-center">
+                                <label class="csscheckbox csscheckbox-primary">
+                                    <input type="checkbox" name="id[]" value="{$v['id']}"><span></span>
+                                </label>
+                            </td>
+                            <td class="hidden-sm">{$v.id}</td>
+                            <td class="hidden-sm">{$v.title}</td>
+                            <td class="hidden-sm hidden-xs ">
+                                <div style="width: 300px;word-wrap:break-word;text-align: center">
+                                      {eq name='source' value='3']
+                                {$v.country}
+                                {else /}
+                                {$v.fids}
+                                {/eq}
+                                </div>
+                            </td>
+                            <td class="hidden-sm hidden-xs">
+                                {notempty name='v.pic.raw'}
+                                <a href="{$v.pic.new}" target="_blank"><img src="{$v.pic.new}" width="100"></a>
+                                {else/}
+                                无
+                                {/notempty}
+                            </td>
+                            <td class="hidden-sm hidden-xs">
+                                {$v.type}
+                            </td>
+                            <td class="hidden-sm">{$v.endtime}</td>
+                            <td>
+                                <a href="{:url('insertApp',['base' => $base,'source' => $source,'id' => $v.id])}" data-toggle="tooltip" title="" class="btn btn-effect-ripple btn-xs btn-info" style="overflow: hidden; position: relative;" data-original-title="编辑 {$v.title}"><i class="fa fa-pencil"></i></a>
+                            </td>
+                        </tr>
+                        {/eq}
+                        <!--论坛数据 END-->
+
+                        {/volist}
+                        {/notempty}
+                        </tbody>
+                    </table>
+
+
+
+
+
+
+                    <div class="row">
+                        <div class="col-sm-5 col-xs-12 clearfix">
+                            <div class="dataTables_info" role="status" aria-live="polite">
+                                <!--<a href="#modal-fade" type="button" id="deletes" name="idr" class="btn btn-effect-ripple btn-danger" data-toggle="modal">-->
+                                    <!--批量删除-->
+                                <!--</a>-->
+                            </div>
+                        </div>
+                        <div class="col-sm-7 col-xs-12 clearfix">
+                            <div class="dataTables_paginate paging_bootstrap">
+                                {notempty name='list'}
+                                {$list->render()}
+                                {/notempty}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END 内容 -->
+        <div id="modal-fade" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <input type="hidden" id="delete-path" value="{url('features')}" />
+                        <button type="button" class="close cancels" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title"><strong>删除</strong></h3>
+                    </div>
+                    <div class="modal-body" >
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="__token__" value="{$Request.token}" />
+                        <button id="certain" name="sub" type="button" class="btn btn-effect-ripple btn-primary">确定</button>
+                        <button type="button" class="btn btn-effect-ripple btn-danger cancels" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END 网页内容 -->
+    {include file="admin@public/footer" /}
+    <!-- 加载并执行仅在本页中使用的JavaScript代码 -->
+    <script src="__JS__/common.js"></script>
+    <script src="__JS__/pages/Tables.js"></script>
+    <script>
+        $(function () {
+            Tables.init();
+            //显示类型
+            $('.show_list').click(function () {
+                var hidden_id = $(this).attr('href');
+                var data = $('.hidden_'+hidden_id);
+                if(data.hasClass('hidden')){
+                    data.removeClass('hidden');
+                    $(this).find('i').removeClass('fa-chevron-right');
+                    $(this).find('i').addClass('fa-chevron-down');
+                }else{
+                    data.addClass('hidden');
+                    $(this).find('i').removeClass('fa-chevron-down');
+                    $(this).find('i').addClass('fa-chevron-right');
+                }
+                return false;
+            });
+            //异步修改功能状态
+            $('.checked_data').change(function () {
+                var status = '';
+                var change = $(this);
+                if(change.is(':checked')){
+                    status = 1;
+                }else{
+                    status = 2;
+                }
+                var data = {
+                    'status' : status,
+                    'id'   : $(this).attr('ids'),
+                    '__token__' :  $('meta[name="csrf-token"]').attr('content'),
+                };
+                ajaxForm("{:url('shut')}",data);
+            })
+
+        });
+    </script>
+    </body>
+</html>

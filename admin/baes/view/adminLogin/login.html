@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!--[if IE 9]>         <html class="no-js lt-ie10" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <title>华人街后台管理系统</title>
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="robots" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="csrf-token" content="{$Request.token}">
+    <!-- 图标 -->
+    <!-- 下面的图标可以用你自己的图标替换，它们被桌面和移动浏览器所使用。 -->
+    <link rel="shortcut icon" href="__IMG__/favicon.png">
+    <link rel="apple-touch-icon" href="__IMG__/icon57.png" sizes="57x57">
+    <link rel="apple-touch-icon" href="__IMG__/icon72.png" sizes="72x72">
+    <link rel="apple-touch-icon" href="__IMG__/icon76.png" sizes="76x76">
+    <link rel="apple-touch-icon" href="__IMG__/icon114.png" sizes="114x114">
+    <link rel="apple-touch-icon" href="__IMG__/icon120.png" sizes="120x120">
+    <link rel="apple-touch-icon" href="__IMG__/icon144.png" sizes="144x144">
+    <link rel="apple-touch-icon" href="__IMG__/icon152.png" sizes="152x152">
+    <link rel="apple-touch-icon" href="__IMG__/icon180.png" sizes="180x180">
+    <!-- END 图标 -->
+
+    <!-- 样式表 -->
+    <!-- 引导程序包含在原始表单中，未修改 -->
+    <link rel="stylesheet" href="__CSS__/bootstrap.min.css">
+    <!-- 各种图标包和插件的相关样式 -->
+    <link rel="stylesheet" href="__CSS__/plugins.css">
+    <!-- 这个模板的主要样式表。所有引导重写都在这里定义 -->
+    <link rel="stylesheet" href="__CSS__/main.css">
+    <!--从css/themes/文件夹中包含一个特定的文件，以更改模板的默认主题-->
+    <!-- Include a specific file here from css/themes/ folder to alter the default theme of the template -->
+    <!-- 这个模板的主题样式表(用于在单独的元素中使用特定的主题颜色—必须包括最后) -->
+    <link rel="stylesheet" href="__CSS__/themes.css">
+    <!-- END 样式表 -->
+    <!-- 现代化(浏览器功能检测库) -->
+    <script src="__JS__/vendor/modernizr-3.3.1.min.js"></script>
+
+</head>
+<body>
+
+<!--主体-->
+<div id="login-container">
+
+    <div class="block animation-fadeInQuick">
+        <!-- 登录头部 -->
+        <h1 class="h2 text-center push-top-bottom animation-pullDown">
+            <strong>后台登录</strong>
+        </h1>
+        <!-- END 登录头部 -->
+
+        <!-- 登录表单 -->
+        <form id="form-validation" action="{:url('adminLogin')}" method="post" class="form-horizontal">
+            <div class="form-group has-error">
+                <div class="col-xs-12">
+                    <div id="login_error" class="help-block animation-slideUp "></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="admin_name" class="col-xs-12">账号</label>
+                <div class="col-xs-12">
+                    <input type="text" id="admin_name" name="admin_name" class="form-control" placeholder="请输入账号..">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="admin_pass" class="col-xs-12">密码</label>
+                <div class="col-xs-12">
+                    <input type="password" id="admin_pass" name="admin_pass" class="form-control" placeholder="请输入密码..">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="verify" class="col-xs-12">验证码</label>
+                <div class="col-md-6" style="display: inline-block;vertical-align: middle;float: none">
+                    <img src="{:captcha_src()}" id="getlogos" onclick="re_captcha()" alt="验证码" title="刷新图片" width="100%" border="0">
+                </div>
+                <div class="col-md-5" style="display: inline-block;vertical-align: middle;float: none">
+                    <span><a id="change" href="javascript:;" onclick="re_captcha()" > 换一张</a></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <input type="TEXT" id="verify" name="verify" class="form-control" placeholder="请输入验证码...">
+                </div>
+            </div>
+            <div class="form-group form-actions">
+                <button type="submit" class="btn btn-block btn-success">登录</button>
+            </div>
+        </form>
+        <!-- END 登录标题 -->
+    </div>
+
+</div>
+<!-- END 主体 -->
+
+
+<!-- jQuery，引导，jQuery插件和自定义js代码 -->
+<script src="__JS__/vendor/jquery-2.2.4.min.js"></script>
+<script src="__JS__/vendor/bootstrap.min.js"></script>
+<script src="__JS__/plugins.js"></script>
+<script src="__JS__/app.js"></script>
+
+<!-- 加载并执行仅在本页中使用的JavaScript代码 -->
+<script src="__JS__/pages/Admin/AdminLoginValidation.js"></script>
+<script>
+    function re_captcha() {
+        $url = "{:captcha_src()}?";
+        $url = $url  + Math.random();
+        document.getElementById('getlogos').src=$url;
+    }
+    $(function(){AdminLoginValidation.init();});
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+</div>
+<!-- END 主容器 -->
+</div>
+<!-- END 页面容器 -->
+</div>
+<!-- END 页面包装 -->
+
+<!-- jQuery，引导，jQuery插件和自定义js代码 -->
+<script src="__JS__/vendor/jquery-2.2.4.min.js"></script>
+<script src="__JS__/vendor/bootstrap.min.js"></script>
+<script src="__JS__/plugins.js"></script>
+<script src="__JS__/app.js"></script>
+{notempty name='think.server.ouery_string'}
+
+{/notempty}
+
+<script>
+    $(function () {
+        //导航栏高亮
+      var module = "{:request()->module()}";
+      var controller = "{:request()->controller()}";
+      var action = "{notempty name='action'}{$action}{else/}{:request()->action()}{/notempty}";
+      $('.'+module).addClass('open');
+      $('.'+controller).addClass('open');
+      $('.'+action).addClass('active');
+
+        //退出登录
+        $('.LockCancellation').click(function () {
+            $.ajax({
+                type : 'post',
+                url  : "{:url('Admin/Login/adminQuit')}",
+                dataType:"json",
+                data : {
+                  'exit' : true,
+                  '__token__' :  $('meta[name="csrf-token"]').attr('content'),
+                },
+                success:function (data) {
+                    var growlType = '';
+                    var curl = '';
+                    if(data.status == true){
+                        growlType = 'success';
+                        curl = "{:url('Admin/Login/adminLogin')}";
+                    }else{
+                        growlType = 'danger';
+                    }
+                    $.bootstrapGrowl('<h4><strong>通知</strong></h4> <p>'+data.msg+'</p>', {
+                        type: growlType,
+                        delay: 3000,
+                        allow_dismiss: true,
+                        offset: {from: 'top', amount: 20}
+                    });
+                    setTimeout(function(){location.href = curl},1000);
+                }
+            });
+            return false;
+        })
+    })
+</script>

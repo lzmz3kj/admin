@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!--[if IE 9]>         <html class="no-js lt-ie10" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <title>{notempty name='info'}修改{else/}添加{/notempty}{notempty name='viewname'}{$viewname}{/notempty}</title>
+    <!--robots用来告诉搜索机器人哪些页面需要索引，哪些页面不需要索引。content的参数有all,none,index,noindex,follow,nofollow。默认是all。-->
+    <meta name="robots" content="noindex, nofollow">
+    <!--viewport用来兼容手机网页-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- END 网页内容 -->
+    <style>
+        #tag-cloud a{cursor:pointer}
+        .preview-img img {
+            display: inline-block;
+            margin-top: 15px;
+            width: 150px;
+        }
+    </style>
+    {include file="admin@public/header" /}
+    <!-- 网页内容 -->
+    <div id="page-content">
+        <!-- 标题 -->
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1>{notempty name='viewname'}{$viewname}{/notempty}详情</h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>{notempty name='viewname'}{$viewname}{/notempty}详情</li>
+                            <li><a href="{:url('ad/AdStuff/stuffList')}">{notempty name='viewname'}{$viewname}{/notempty}列表</a></li>
+                            <li><a href="{:url('/')}">后台首页</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END 标题 -->
+
+        <!-- 模块 -->
+        <div class="row col-sm-10 col-sm-offset-1 col-md-10 col-lg-10 col-lg-offset-1">
+            <!-- 表单验证块 -->
+            <div class="block">
+                <!-- 表单验证标题 -->
+                <div class="block-title">
+                    <h2>基本信息</h2>
+                </div>
+                <!-- END 表单验证标题 -->
+
+                <!-- 表单验证表单 -->
+                <form id="form-validation" action="{:url('submit')}" method="post" class="form-horizontal form-bordered " enctype="multipart/form-data" novalidate="novalidate">
+
+                    {eq name='base' value='Discuzx'}
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="filepath">上传文件</label>
+                        <div class="col-md-6">
+                            <input type="hidden" name="filepath" value="{notempty name='info.filepath.raw'}{$info.filepath.raw}{/notempty}">
+                            <a href="javascript:;" class="a-upload">
+                                <input type="file" name="file" class="image-input" id="filepath"> 上传附件
+                            </a>
+                            <div class="preview-img">.
+                                {notempty name='info.filepath.new'}
+                                <a href="{$info.filepath.new}" target="_blank"><img src="{$info.filepath.new}"></a>
+                                {/notempty}
+                            </div>
+                        </div>
+                    </div>
+                    {/eq}
+
+                    {eq name='base' value='ClassAd'}
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="img_url">上传文件</label>
+                        <div class="col-md-6">
+                            <input type="hidden" name="img_url" value="{notempty name='info.img_url.raw'}{$info.img_url.raw}{/notempty}">
+                            <a href="javascript:;" class="a-upload">
+                                <input type="file" name="file" class="image-input" id="img_url"> 上传附件
+                            </a>
+                            <div class="preview-img">.
+                                {notempty name='info.img_url.new'}
+                                <a href="{$info.img_url.new}" target="_blank"><img src="{$info.img_url.new}"></a>
+                                {/notempty}
+                            </div>
+                        </div>
+                    </div>
+                    {/eq}
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="filedesc">文件描述 <span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <textarea id="filedesc" name="filedesc" rows="4" class="form-control" > {notempty name='info'}
+                                {eq name='base' value='Discuzx'}{$info.filedesc}{/eq}
+                                {eq name='base' value='ClassAd'}{$info.remark}{/eq}
+                                {/notempty}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-actions">
+                        <div class="col-md-6 col-md-offset-3">
+                            <input name="base" type="hidden" value="{$base}" />
+                            <input name="country" type="hidden" value="{$country}" />
+                            <input name="path" type="hidden" value="myfiles" />
+                            <input name="id" type="hidden" value="{notempty name='info'}{$info.id}{/notempty}" />
+                            <button type="submit" class="btn btn-block btn-success">{notempty name='info'}修改{else/}添加{/notempty}</button>
+                        </div>
+                    </div>
+                    <a id="a-click" href="#modal-regular" class="btn btn-effect-ripple btn-default" data-toggle="modal" style="display: none"></a>
+                    <!-- Regular Modal -->
+                    <div id="modal-regular" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h3 class="modal-title"><strong>结果</strong></h3>
+                                </div>
+                                <div class="modal-body">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-effect-ripple btn-danger" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Regular Modal -->
+                </form>
+                <!-- END Form Validation Form -->
+            </div>
+            <!-- END Form Validation Block -->
+        </div>
+
+        <!-- END 模块 -->
+    </div>
+    <!-- END 网页内容 -->
+    {include file="admin@public/footer" /}
+    <!-- 加载并执行仅在本页中使用的JavaScript代码 -->
+    <script src="__JS__/ajaxfileupload.js"></script>
+    <script src="__JS__/common.js"></script>
+    <script src="__JS__/pages/Ad/AdStuffValidation.js"></script>
+    <script>
+        $(function(){
+            AdStuffValidation.init();
+            $(".a-upload").on("change","input[type='file']",function(){
+                var file_id = $(this).attr("id"),url="{:url('admin/Baes/uploadFile')}";
+                ajaxUploadFile(file_id,url);
+            });
+        });
+    </script>
+    </body>
+</html>

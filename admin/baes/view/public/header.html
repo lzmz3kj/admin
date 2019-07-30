@@ -1,0 +1,147 @@
+<meta name="csrf-token" content="{$Request.token}">
+
+<link rel="shortcut icon" href="__IMG__/favicon.png">
+<link rel="apple-touch-icon" href="__IMG__/icon57.png" sizes="57x57">
+<link rel="apple-touch-icon" href="__IMG__/icon72.png" sizes="72x72">
+<link rel="apple-touch-icon" href="__IMG__/icon76.png" sizes="76x76">
+<link rel="apple-touch-icon" href="__IMG__/icon114.png" sizes="114x114">
+<link rel="apple-touch-icon" href="__IMG__/icon120.png" sizes="120x120">
+<link rel="apple-touch-icon" href="__IMG__/icon144.png" sizes="144x144">
+<link rel="apple-touch-icon" href="__IMG__/icon152.png" sizes="152x152">
+<link rel="apple-touch-icon" href="__IMG__/icon180.png" sizes="180x180">
+
+<link rel="stylesheet" href="__CSS__/bootstrap.min.css">
+<link rel="stylesheet" href="__CSS__/plugins.css">
+<link rel="stylesheet" href="__CSS__/main.css">
+<link rel="stylesheet" href="__CSS__/themes.css">
+<script src="__JS__/vendor/modernizr-3.3.1.min.js"></script>
+</head>
+<body>
+<div id="page-wrapper" class="page-loading">
+    <div class="preloader">
+        <div class="inner">
+            <!-- 所有现代浏览器的动画旋转器 -->
+            <div class="preloader-spinner themed-background hidden-lt-ie10"></div>
+
+            <!-- 全文的IE9的方法 -->
+            <h3 class="text-primary visible-lt-ie10"><strong>加载..</strong></h3>
+        </div>
+    </div>
+    <div id="page-container" class="header-fixed-top sidebar-visible-lg-full ">
+        <!-- 主工具栏 -->
+        <div id="sidebar">
+            <!-- 侧边栏的LOGO -->
+            <div id="sidebar-brand" class="themed-background">
+                <a href="{:url('/')}" class="sidebar-title">
+                    <i class="fa fa-cube"></i> <span class="sidebar-nav-mini-hide">后台管理系统</span>
+                </a>
+            </div>
+            <!-- END 侧边栏的LOGO -->
+
+            <!-- 滚动功能的包装器 -->
+            <div id="sidebar-scroll">
+                <!-- 栏目内容 -->
+                <div class="sidebar-content">
+
+                    <!-- 侧边栏导航 -->
+                    <ul class="sidebar-nav">
+                        {notempty name='ModuleList'}
+                        {volist name='ModuleList' id='amv'}
+                        <li>
+                            <a href="#" class="sidebar-nav-menu {$amv.mark}"><i class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i class="gi gi-display sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">{$amv.name}</span></a>
+                            <ul>
+                                {notempty name='amv.has_son'}
+                                {volist name='amv.has_son' id='amv1'}
+
+                                {notempty name='amv1.has_son'}
+                                <li>
+                                    <a href="#" class="sidebar-nav-submenu {$amv1.mark}"><span class="sidebar-nav-ripple animate" ></span><i class="fa fa-chevron-left sidebar-nav-indicator"></i>{$amv1.name}</a>
+                                    <ul>
+                                        {volist name='amv1.has_son' id='amv2'}
+                                        <li>
+                                            <a href="{:url($amv.mark.'/'.$amv1.mark.'/'.$amv2.mark)}" class="{$amv2.mark}">{$amv2.name}</a>
+                                        </li>
+                                        {/volist}
+                                    </ul>
+                                </li>
+                                {else/}
+                                <li>
+                                    <a href="{:url($amv1.mark)}" class="{$amv1.mark}">{$amv1.name}</a>
+                                </li>
+                                {/notempty}
+
+                                {/volist}
+                                {/notempty}
+                            </ul>
+                        </li>
+                        {/volist}
+                        {/notempty}
+
+                        <li class="sidebar-separator">
+                            <i class="fa fa-ellipsis-h"></i>
+                        </li>
+                        {notempty name='Think.session.UserInfo.limit'}
+                        {eq name='Think.session.UserInfo.limit' value='1'}
+                        <li>
+                            <a href="#" class="sidebar-nav-menu baes"><i class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i class="gi gi-display sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">站点管理</span></a>
+                            <ul>
+                                <li>
+                                    <a href="{:url('baes/AdminModule/lists')}" class="AdminModule">模块管理</a>
+                                </li>
+                                <li>
+                                    <a href="{:url('baes/AdminUser/lists')}" class="AdminUser">后台用户管理</a>
+                                </li>
+                                <li>
+                                    <a href="{:url('baes/AdminLog/lists')}" class="AdminLog">操作日志</a>
+                                </li>
+                            </ul>
+                        </li>
+                        {/eq}
+                        {/notempty}
+                    </ul>
+                    <!-- END 侧边栏导航 -->
+                </div>
+                <!-- END 栏目内容 -->
+            </div>
+            <!-- END 滚动功能包装 -->
+
+        </div>
+        <!-- END 主工具栏 -->
+
+        <!-- 主容器 -->
+        <div id="main-container">
+            <header class="navbar navbar-deafult navbar-fixed-top">
+                <!-- 左侧头部导航 -->
+                <ul class="nav navbar-nav-custom">
+                    <!-- 主工具栏切换按钮 -->
+                    <li>
+                        <a href="javascript:void(0)" onclick="App.sidebar('toggle-sidebar');this.blur();">
+                            <i class="fa fa-ellipsis-v fa-fw animation-fadeInRight" id="sidebar-toggle-mini"></i>
+                            <i class="fa fa-bars fa-fw animation-fadeInRight" id="sidebar-toggle-full"></i>
+                        </a>
+                    </li>
+                    <!-- END 主工具栏切换按钮 -->
+
+                    <!-- 标题链接 -->
+                    <li class="hidden-xs ">
+                        <a href="#">欢迎您：<strong>{$Think.session.UserInfo.admin_name}</strong></a>
+                    </li>
+
+                    <!-- END 标题链接 -->
+                </ul>
+                <!-- END 左侧头部导航 -->
+
+                <!-- 右侧的页眉导航 -->
+                <ul class="nav navbar-nav-custom pull-right">
+
+                    <!-- 用户下拉 -->
+                    <li class="dropdown">
+                        <a class="LockCancellation" href="#">
+                            退出
+                        </a>
+                    </li>
+                    <!-- END 用户下拉 -->
+                </ul>
+                <!-- END 右侧的页眉导航 -->
+            </header>
+            <!-- END 头部 -->

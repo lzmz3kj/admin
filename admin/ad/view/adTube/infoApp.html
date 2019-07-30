@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<!--[if IE 9]>         <html class="no-js lt-ie10" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <title>{notempty name='info'}修改{else/}添加{/notempty}{notempty name='viewname'}{$viewname}{/notempty}</title>
+    <!--robots用来告诉搜索机器人哪些页面需要索引，哪些页面不需要索引。content的参数有all,none,index,noindex,follow,nofollow。默认是all。-->
+    <meta name="robots" content="noindex, nofollow">
+    <!--viewport用来兼容手机网页-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- END 网页内容 -->
+    <style>
+        #tag-cloud a{cursor:pointer}
+    </style>
+    {include file="admin@public/header" /}
+    <!-- 网页内容 -->
+    <div id="page-content">
+        <!-- 标题 -->
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1>{notempty name='info'}修改{else/}添加{/notempty}{notempty name='viewname'}{$viewname}{/notempty}</h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>{notempty name='info'}修改{else/}添加{/notempty}{notempty name='viewname'}{$viewname}{/notempty}</li>
+                            <li><a href="{:url('/')}">后台首页</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END 标题 -->
+
+        <!-- 模块 -->
+        <div class="row col-sm-10 col-sm-offset-1 col-md-10 col-lg-10 col-lg-offset-1">
+            <!-- 表单验证块 -->
+            <div class="block">
+                <!-- 表单验证标题 -->
+
+                <!--<div class="block-title">-->
+                    <!--<ul class="nav nav-tabs" data-toggle="tabs">-->
+                        <!--<li {eq name='base' value='Discuzx'}class="active"{/eq}><a href="#forum-Discuzx">论坛</a></li>-->
+                        <!--<li {eq name='base' value='ClassAd'}class="active"{/eq}><a href="#forum-ClassAd">分类广告</a></li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+                <!-- END 表单验证标题 -->
+                <div class="tab-content">
+
+                    {eq name='base' value='Discuzx'}
+                    <div class="tab-pane active">
+                        <!-- 论坛 -->
+                        <form id="form-Discuzx" action="{:url('submitApp')}" method="post" class="form-horizontal form-bordered " enctype="multipart/form-data" novalidate="novalidate">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="title">标题 <span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <input type="text" id="title" name="title" class="form-control" placeholder="标题" value="{notempty name='info'}{$info.title}{/notempty}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="link">路径 <span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <input type="text" id="link" name="link" class="form-control" placeholder="浏览器跳转的Link" value="{notempty name='info'}{$info.link}{/notempty}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="tid">帖子ID <span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <input type="text" id="tid" name="tid" class="form-control" placeholder="帖子或餐馆ID" value="{notempty name='info'}{$info.tid}{/notempty}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="serialno">排序</label>
+                                <div class="col-md-6">
+                                    <input type="text" id="serialno" name="serialno" class="form-control" placeholder="排序" value="{notempty name='info'}{$info.serialno}{/notempty}">
+                                </div>
+                            </div>
+
+                            {if condition="($source == 3) OR ($source == 10) OR ($source == 14)"}
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="fids">模块ID <span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <textarea id="fids" name="fids" rows="3" class="form-control" placeholder="请使用,逗号分隔" >{notempty name='info'}{$info.fids}{/notempty}</textarea>
+                                </div>
+                            </div>
+                            {else/}
+                            <div class="form-group isShow">
+                                <label class="col-md-3 control-label" >国家<span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    {foreach $countryType as $ck => $cv}
+                                    <label class="checkbox-inline" for="country{$ck}">
+                                        <input type="checkbox" id="country{$ck}" name="country[]" value="{$ck}" {notempty name='info'}
+                                               {volist name="info.country" id="civ"}
+                                               {eq name="civ" value="$ck"}checked{/eq}
+                                        {/volist}
+                                        {/notempty}
+                                        > {$cv}
+                                    </label>
+                                    {/foreach}
+                                </div>
+                            </div>
+                            {/if}
+
+                            <div class="form-group isShow">
+                                <label class="col-md-3 control-label" for="type">广告类型<span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <select id="type" name="type"  class="form-control">
+                                        <option value="1" {notempty name='info'}{eq name="info.type" value="1"}selected{/eq}{/notempty} >
+                                        {if condition="($source == 3) OR ($source == 7) OR ($source == 8) OR ($source == 14)"}
+                                        帖子类型
+                                        {else/}
+                                        内部帖子跳转
+                                        {/if}
+                                        </option>
+
+                                        {if condition="($source != 9) OR ($source != 12)  OR ($source != 13)"}
+                                        <option value="2" {notempty name='info'}{eq name="info.type" value="2"}selected{/eq}{/notempty} >内部餐馆跳转</option>
+                                        {/if}
+
+                                        {if condition="($source != 12)  OR ($source != 13)"}
+                                        <option value="3" {notempty name='info'}{eq name="info.type" value="3"}selected{/eq}{/notempty} >
+
+                                        {if condition="($source == 3) OR ($source == 7) OR ($source == 8) OR ($source == 9) OR ($source == 14)"}
+                                        google广告
+                                        {else/}
+                                        浏览器跳转
+                                        {/if}
+                                        </option>
+
+                                        <option value="4" {notempty name='info'}{eq name="info.type" value="4"}selected{/eq}{/notempty} >纯图片广告</option>
+
+                                        {if condition="($source == 1) OR ($source == 10)"}
+                                        <option value="5" {notempty name='info'}{eq name="info.type" value="5"}selected{/eq}{/notempty} >google广告</option>
+                                        {/if}
+
+                                        {/if}
+                                        {if condition="($source == 1) OR ($source == 10) OR ($source == 9) OR ($source == 12)  OR ($source == 13)"}
+                                        <option value="7" {notempty name='info'}{eq name="info.type" value="7"}selected{/eq}{/notempty} >内部分类广告</option>
+                                        {/if}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="pic">图片</label>
+                                <div class="col-md-6">
+                                    <div class="col-md-5">
+                                        <input type="hidden" name="pic" value="{notempty name='info'}{$info.pic.raw}{/notempty}">
+                                        <a href="javascript:;" class="a-upload">
+                                            <input type="file" name="file" class="image-input" id="pic"> 上传附件
+                                        </a>
+                                        <div class="preview-img">.
+                                            {notempty name='info.pic.raw'}
+                                            <a href="/{$info.pic.raw}" target="_blank"><img src="/{$info.pic.raw}"></a>
+                                            {/notempty}
+                                        </div>
+                                    </div>
+                                    <label class="col-md-2 control-label" for="pic_android">安卓图片</label>
+                                    <div class="col-md-5">
+                                        <input type="hidden" name="pic_android" value="{notempty name='info'}{$info.pic_android}{/notempty}">
+                                        <a href="javascript:;" class="a-upload">
+                                            <input type="file" name="file" class="image-input" id="pic_android"> 上传附件
+                                        </a>
+                                        <div class="preview-img">.
+                                            {notempty name='info.pic_android'}
+                                            <a href="/{$info.pic_android}" target="_blank"><img src="/{$info.pic_android}"></a>
+                                            {/notempty}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {eq name='source' value='6'}
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="pic1">图片1</label>
+                                <div class="col-md-6">
+                                    <div class="col-md-5">
+                                        <input type="hidden" name="pic1" value="{notempty name='info.image'}{$info.image}{/notempty}">
+                                        <a href="javascript:;" class="a-upload">
+                                            <input type="file" name="file" class="image-input" id="pic1"> 上传附件
+                                        </a>
+                                        <div class="preview-img">.
+                                            {notempty name='info.pic1'}
+                                            <a href="/{$info.pic1}" target="_blank"><img src="/{$info.pic1}"></a>
+                                            {/notempty}
+                                        </div>
+                                    </div>
+                                    <label class="col-md-2 control-label" for="pic1_android">安卓图片1</label>
+                                    <div class="col-md-5">
+                                        <input type="hidden" name="pic1_android" value="{notempty name='info'}{$info.pic1_android}{/notempty}">
+                                        <a href="javascript:;" class="a-upload">
+                                            <input type="file" name="file" class="image-input" id="pic1_android"> 上传附件
+                                        </a>
+                                        <div class="preview-img">.
+                                            {notempty name='info.pic1_android'}
+                                            <a href="/{$info.pic1_android}" target="_blank"><img src="/{$info.pic1_android}"></a>
+                                            {/notempty}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="pic2">图片2</label>
+                                <div class="col-md-6">
+                                    <div class="col-md-5">
+                                        <input type="hidden" name="pic2" value="{notempty name='info.image'}{$info.image}{/notempty}">
+                                        <a href="javascript:;" class="a-upload">
+                                            <input type="file" name="file" class="image-input" id="pic2"> 上传附件
+                                        </a>
+                                        <div class="preview-img">.
+                                            {notempty name='info.pic2'}
+                                            <a href="/{$info.pic2}" target="_blank"><img src="/{$info.pic2}"></a>
+                                            {/notempty}
+                                        </div>
+                                    </div>
+                                    <label class="col-md-2 control-label" for="pic2_android">安卓图片2</label>
+                                    <div class="col-md-5">
+                                        <input type="hidden" name="pic2_android" value="{notempty name='info'}{$info.pic2_android}{/notempty}">
+                                        <a href="javascript:;" class="a-upload">
+                                            <input type="file" name="file" class="image-input" id="pic2_android"> 上传附件
+                                        </a>
+                                        <div class="preview-img">.
+                                            {notempty name='info.pic2_android'}
+                                            <a href="/{$info.pic2_android}" target="_blank"><img src="/{$info.pic2_android}"></a>
+                                            {/notempty}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="pic3">图片3</label>
+                                <div class="col-md-6">
+                                    <div class="col-md-5">
+                                        <input type="hidden" name="pic3" value="{notempty name='info.image'}{$info.image}{/notempty}">
+                                        <a href="javascript:;" class="a-upload">
+                                            <input type="file" name="file" class="image-input" id="pic3"> 上传附件
+                                        </a>
+                                        <div class="preview-img">.
+                                            {notempty name='info.pic3'}
+                                            <a href="/{$info.pic3}" target="_blank"><img src="/{$info.pic3}"></a>
+                                            {/notempty}
+                                        </div>
+                                    </div>
+                                    <label class="col-md-2 control-label" for="pic3_android">安卓图片3</label>
+                                    <div class="col-md-5">
+                                        <input type="hidden" name="pic3_android" value="{notempty name='info'}{$info.pic3_android}{/notempty}">
+                                        <a href="javascript:;" class="a-upload">
+                                            <input type="file" name="file" class="image-input" id="pic3_android"> 上传附件
+                                        </a>
+                                        <div class="preview-img">.
+                                            {notempty name='info.pic3_android'}
+                                            <a href="/{$info.pic3_android}" target="_blank"><img src="/{$info.pic3_android}"></a>
+                                            {/notempty}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="pic4">图片4</label>
+                                <div class="col-md-6">
+                                    <div class="col-md-5">
+                                        <input type="hidden" name="pic4" value="{notempty name='info.image'}{$info.image}{/notempty}">
+                                        <a href="javascript:;" class="a-upload">
+                                            <input type="file" name="file" class="image-input" id="pic4"> 上传附件
+                                        </a>
+                                        <div class="preview-img">.
+                                            {notempty name='info.pic4'}
+                                            <a href="/{$info.pic4}" target="_blank"><img src="/{$info.pic4}"></a>
+                                            {/notempty}
+                                        </div>
+                                    </div>
+                                    <label class="col-md-2 control-label" for="pic4_android">安卓图片4</label>
+                                    <div class="col-md-5">
+                                        <input type="hidden" name="pic4_android" value="{notempty name='info'}{$info.pic4_android}{/notempty}">
+                                        <a href="javascript:;" class="a-upload">
+                                            <input type="file" name="file" class="image-input" id="pic4_android"> 上传附件
+                                        </a>
+                                        <div class="preview-img">.
+                                            {notempty name='info.pic4_android'}
+                                            <a href="/{$info.pic4_android}" target="_blank"><img src="/{$info.pic4_android}"></a>
+                                            {/notempty}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="pic5_android">安卓图片5</label>
+                                <div class="col-md-6">
+                                    <div class="col-md-5">
+                                        <input type="hidden" name="pic5_android" value="{notempty name='info'}{$info.pic5_android}{/notempty}">
+                                        <a href="javascript:;" class="a-upload">
+                                            <input type="file" name="file" class="image-input" id="pic5_android"> 上传附件
+                                        </a>
+                                        <div class="preview-img">.
+                                            {notempty name='info.pic5_android'}
+                                            <a href="/{$info.pic5_android}" target="_blank"><img src="/{$info.pic5_android}"></a>
+                                            {/notempty}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/eq}
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">结束时间</label>
+                                <div class="col-md-6">
+                                    <input type="text" id="endtime" name="endtime" class="form-control input-datepicker" data-date-format="yyyy-dd-mm" placeholder="结束时间" value="{notempty name='info'}{$info.begintime}{/notempty}">
+                                </div>
+                            </div>
+                            {if condition="($source != 6)"}
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="desc">描述 <span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <textarea id="desc" name="desc" rows="2" class="form-control" placeholder="备注" >{notempty name='info'}{$info.desc}{/notempty}</textarea>
+                                </div>
+                            </div>
+                            {/IF}
+                            <div class="form-group form-actions">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <input name="base" type="hidden" value="{$base}" />
+                                    <input name="source" type="hidden" value="{$source}" />
+                                    <input name="country" type="hidden" value="{$country}" />
+                                    <input name="id" type="hidden" value="{notempty name='info'}{$info.id}{/notempty}" />
+                                    <button type="submit" class="btn btn-block btn-success">添加</button>
+                                </div>
+                            </div>
+
+                        </form>
+                        <!-- END 论坛 -->
+                    </div>
+                    {/eq}
+
+                    {eq name='base' value='ClassAd'}
+                    <div class="tab-pane active" >
+                        <!-- 分类广告 -->
+                        <form id="forum-ClassAd" action="{:url('submitApp')}" method="post" class="form-horizontal form-bordered " enctype="multipart/form-data" novalidate="novalidate">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">状态</label>
+                                <div class="col-md-9">
+                                    <label class="switch switch-success" for="status">
+                                        <input type="checkbox" id="status" name="status" {notempty name='info.status'}{eq name="info.status.raw" value="1"}checked{/eq}{else/}checked{/notempty}   value="1" />
+                                        <span data-toggle="tooltip" title="开启请点击"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="title">标题 <span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <input type="text" id="title" name="title" class="form-control" placeholder="标题" value="{notempty name='info'}{$info.title}{/notempty}">
+                                </div>
+                            </div>
+                            {eq name='source' value='3'}
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="country">国家代码<span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <textarea id="country" name="country" rows="4" class="form-control" placeholder="多个请用,逗号分开">{$info.country}</textarea>
+                                </div>
+                            </div>
+                            {else/}
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="fids">板块ID<span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <textarea id="fids" name="fids" rows="4" class="form-control" placeholder="多个请用,逗号分开">{$info.fids}</textarea>
+                                </div>
+                            </div>
+                            {/eq}
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="sort">排序</label>
+                                <div class="col-md-6">
+                                    <input type="text" id="sort" name="sort" class="form-control" placeholder="排序" value="{notempty name='info'}{$info.sort}{/notempty}">
+                                </div>
+                            </div>
+                            <div class="form-group isShow">
+                                <label class="col-md-3 control-label" for="type">操作类型<span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <select id="type" name="type" class="form-control">
+                                        <option value="1" {notempty name='info'}{eq name="info.type" value="1"}selected{/eq}{/notempty}>内部帖子跳转</option>
+                                        <option value="2" {notempty name='info'}{eq name="info.type" value="2"}selected{/eq}{/notempty}>内部餐馆跳转</option>
+                                        <option value="3" {notempty name='info'}{eq name="info.type" value="3"}selected{/eq}{/notempty}>浏览器跳转</option>
+                                        <option value="4" {notempty name='info'}{eq name="info.type" value="4"}selected{/eq}{/notempty}>纯图片广告</option>
+                                        <option value="5" {notempty name='info'}{eq name="info.type" value="5"}selected{/eq}{/notempty}>google广告</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" >设置时间</label>
+                                <div class="col-md-6">
+                                    <div class="input-group input-daterange" data-date-format="yyyy-mm-dd">
+                                        <input type="text" id="begintime" name="begintime" class="form-control" placeholder="开始时间" value="{notempty name='info'}{$info.begintime}{/notempty}">
+                                        <span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>
+                                        <input type="text" id="endtime" name="endtime" class="form-control" placeholder="结束时间" value="{notempty name='info'}{$info.endtime}{/notempty}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="link">路径 <span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <input type="text" id="link" name="link" class="form-control" placeholder="浏览器跳转的Link" value="{notempty name='info'}{$info.link}{/notempty}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="tid">帖子ID <span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <input type="text" id="tid" name="tid" class="form-control" placeholder="帖子ID" value="{notempty name='info'}{$info.tid}{/notempty}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="pic">图片</label>
+                                <div class="col-md-6">
+                                    <div class="col-md-5">
+                                        <input type="hidden" name="pic" value="{notempty name='info'}{$info.pic.raw}{/notempty}">
+                                        <a href="javascript:;" class="a-upload">
+                                            <input type="file" name="file" class="image-input" id="pic"> 上传附件
+                                        </a>
+                                        <div class="preview-img">.
+                                            {notempty name='info.pic.new'}
+                                            <a href="/{$info.pic.new}" target="_blank"><img src="/{$info.pic.raw}"></a>
+                                            {/notempty}
+                                        </div>
+                                    </div>
+                                    <label class="col-md-2 control-label" for="pic_android">安卓图片</label>
+                                    <div class="col-md-5">
+                                        <input type="hidden" name="pic_android" value="{notempty name='info'}{$info.pic_android}{/notempty}">
+                                        <a href="javascript:;" class="a-upload">
+                                            <input type="file" name="file" class="image-input" id="pic_android"> 上传附件
+                                        </a>
+                                        <div class="preview-img">.
+                                            {notempty name='info.pic_android'}
+                                            <a href="/{$info.pic_android}" target="_blank"><img src="/{$info.pic_android}"></a>
+                                            {/notempty}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="desc">描述 <span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <textarea id="desc" name="desc" rows="2" class="form-control" placeholder="请输入广告描述">{notempty name='info'}{$info.desc}{/notempty}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group form-actions">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <input name="base" type="hidden" value="{$base}" />
+                                    <input name="source" type="hidden" value="{$source}" />
+                                    <input name="cityid" type="hidden" value="{$countryid}" />
+                                    <input name="id" type="hidden" value="{notempty name='info'}{$info.id}{/notempty}" />
+                                    <button type="submit" class="btn btn-block btn-success">添加</button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- END 分类广告 -->
+                    </div>
+                    {/eq}
+
+                    <a id="a-click" href="#modal-regular" class="btn btn-effect-ripple btn-default" data-toggle="modal" style="display: none"></a>
+                    <!-- Regular Modal -->
+                    <div id="modal-regular" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <input name="path" type="hidden" value="myfiles/app" />
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h3 class="modal-title"><strong>结果</strong></h3>
+                                </div>
+                                <div class="modal-body">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-effect-ripple btn-danger" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- END 模块 -->
+        </div>
+
+        <!-- END 模块 -->
+    </div>
+    <!-- END 网页内容 -->
+    {include file="admin@public/footer" /}
+    <!-- 加载并执行仅在本页中使用的JavaScript代码 -->
+    <script src="__JS__/ajaxfileupload.js"></script>
+    <script src="__JS__/common.js"></script>
+    <script src="__JS__/pages/Ad/AdTubeAppValidation.js"></script>
+    <script>
+        $(function(){
+            AdTubeAppValidation.init();
+            $(".a-upload").on("change","input[type='file']",function(){
+                var file_id = $(this).attr("id"),url="{:url('admin/Baes/uploadFile')}";
+                ajaxUploadFile(file_id,url);
+            });
+        });
+    </script>
+    </body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!--[if IE 9]>         <html class="no-js lt-ie10" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <title>{notempty name='info'}修改{else/}添加{/notempty}{notempty name='viewname'}{$viewname}{/notempty}</title>
+    <!--robots用来告诉搜索机器人哪些页面需要索引，哪些页面不需要索引。content的参数有all,none,index,noindex,follow,nofollow。默认是all。-->
+    <meta name="robots" content="noindex, nofollow">
+    <!--viewport用来兼容手机网页-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- END 网页内容 -->
+    <style>
+        #tag-cloud a{cursor:pointer}
+    </style>
+    {include file="admin@public/header" /}
+    <!-- 网页内容 -->
+    <div id="page-content">
+        <!-- 标题 -->
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1>{notempty name='info'}修改{else/}添加{/notempty}{notempty name='viewname'}{$viewname}{/notempty}</h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>{notempty name='info'}修改{else/}添加{/notempty}{notempty name='viewname'}{$viewname}{/notempty}</li>
+                            <li><a href="{:url('/')}">后台首页</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END 标题 -->
+
+        <!-- 模块 -->
+        <div class="row col-sm-10 col-sm-offset-1 col-md-10 col-lg-10 col-lg-offset-1">
+            <!-- 表单验证块 -->
+            <div class="block">
+                <!-- 表单验证标题 -->
+
+                <!--<div class="block-title">-->
+                    <!--<ul class="nav nav-tabs" data-toggle="tabs">-->
+                        <!--<li {eq name='base' value='Discuzx'}class="active"{/eq}><a href="#forum-Discuzx">论坛</a></li>-->
+                        <!--<li {eq name='base' value='ClassAd'}class="active"{/eq}><a href="#forum-ClassAd">分类广告</a></li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+                <!-- END 表单验证标题 -->
+                <div class="tab-content">
+
+                    {eq name='base' value='Discuzx'}
+                    <div class="tab-pane active">
+                        <!-- 论坛 -->
+                        <form id="form-Discuzx" action="{:url('submitWap')}" method="post" class="form-horizontal form-bordered " enctype="multipart/form-data" novalidate="novalidate">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="name">标题 <span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <input type="text" id="name" name="name" class="form-control" placeholder="标题" value="{notempty name='info'}{$info.name}{/notempty}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="adcode">广告代码 <span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <textarea id="adcode" name="adcode" rows="4" class="form-control" placeholder="广告代码">{notempty name='info'}{$info.adcode}{/notempty}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="serialno">排序</label>
+                                <div class="col-md-6">
+                                    <input type="text" id="serialno" name="serialno" class="form-control" placeholder="排序" value="{notempty name='info'}{$info.serialno}{/notempty}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">设置时间</label>
+                                <div class="col-md-6">
+                                    <div class="input-group input-daterange" data-date-format="yyyy-mm-dd">
+                                        <input type="text" id="begintime" name="begintime" class="form-control" placeholder="开始时间" value="{notempty name='info'}{$info.begintime}{/notempty}">
+                                        <span class="input-group-addon"><i class="fa fa-chevron-right"></i></span>
+                                        <input type="text" id="endtime" name="endtime" class="form-control" placeholder="结束时间" value="{notempty name='info'}{$info.begintime}{/notempty}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="income">收入</label>
+                                <div class="col-md-6">
+                                    <input type="text" id="income" name="income" class="form-control" placeholder="收入" value="{notempty name='info'}{$info.income}{/notempty}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="textdesc">备注 <span class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <textarea id="textdesc" name="textdesc" rows="2" class="form-control" placeholder="备注" >{notempty name='info'}{$info.textdesc}{/notempty}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group form-actions">
+                                <div class="col-md-6 col-md-offset-3">
+                                    <input name="base" type="hidden" value="{$base}" />
+                                    <input name="source" type="hidden" value="{$source}" />
+                                    <input name="country" type="hidden" value="{$country}" />
+                                    <input name="id" type="hidden" value="{notempty name='info'}{$info.id}{/notempty}" />
+                                    <button type="submit" class="btn btn-block btn-success">添加</button>
+                                </div>
+                            </div>
+
+                        </form>
+                        <!-- END 论坛 -->
+                    </div>
+                    {/eq}
+
+                    <a id="a-click" href="#modal-regular" class="btn btn-effect-ripple btn-default" data-toggle="modal" style="display: none"></a>
+                    <!-- Regular Modal -->
+                    <div id="modal-regular" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h3 class="modal-title"><strong>结果</strong></h3>
+                                </div>
+                                <div class="modal-body">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-effect-ripple btn-danger" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- END 模块 -->
+        </div>
+
+        <!-- END 模块 -->
+    </div>
+    <!-- END 网页内容 -->
+    {include file="admin@public/footer" /}
+    <!-- 加载并执行仅在本页中使用的JavaScript代码 -->
+    <script src="__JS__/pages/Ad/AdTubeValidation.js"></script>
+    <script>
+        $(function(){
+            AdTubeValidation.init();
+        });
+    </script>
+    </body>
+</html>
