@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<!--[if IE 9]>         <html class="no-js lt-ie10" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <title>{notempty name='viewname'}{$viewname}{/notempty}详情</title>
+    <!--robots用来告诉搜索机器人哪些页面需要索引，哪些页面不需要索引。content的参数有all,none,index,noindex,follow,nofollow。默认是all。-->
+    <meta name="robots" content="noindex, nofollow">
+    <!--viewport用来兼容手机网页-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- END 网页内容 -->
+    <style>
+        #tag-cloud a{cursor:pointer}
+    </style>
+    {include file="baes@public/header" /}
+    <!-- 网页内容 -->
+    <div id="page-content">
+        <!-- 标题 -->
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1>{notempty name='viewname'}{$viewname}{/notempty}详情</h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>{notempty name='viewname'}{$viewname}{/notempty}详情</li>
+                            <li><a href="{:url('navList')}">{notempty name='viewname'}{$viewname}{/notempty}列表</a></li>
+                            <li><a href="{:url('/')}">后台首页</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END 标题 -->
+
+        <!-- 模块 -->
+        <div class="row col-sm-10 col-sm-offset-1 col-md-10 col-lg-10 col-lg-offset-1">
+            <!-- 表单验证块 -->
+            <div class="block">
+                <!-- 表单验证标题 -->
+                <div class="block-title">
+                    <h2>基本信息</h2>
+                </div>
+                <!-- END 表单验证标题 -->
+
+                <!-- 表单验证表单 -->
+                <form id="form-validation" action="{:url('navSubmit')}" method="post" class="form-horizontal form-bordered " enctype="multipart/form-data" novalidate="novalidate">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="nav_name">导航栏名称 <span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <input type="text" id="nav_name" name="nav_name" class="form-control" placeholder="" value="{notempty name='info'}{$info.nav_name}{/notempty}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="pid">父级导航<span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <select id="pid" name="pid" class="form-control">
+                                <option value="0">顶级模块</option>
+                                {notempty name='list'}
+                                {volist name='list' id='v'}
+
+                                {notempty name='info'}
+                                {neq name='info.id' value='$v.id'}
+                                <option value="{$v['id']}" {eq name='info.pid' value='$v.id'} selected = "selected" {/eq}>{:str_repeat('&nbsp;',5)} |- {$v.nav_name}</option>
+                                {/neq}
+                                {else/}
+                                <option value="{$v['id']}">{:str_repeat('&nbsp;',5)} |- {$v.nav_name}</option>
+                                {/notempty}
+
+                                {notempty name='v.has_son'}
+                                {volist name='v.has_son' id='v1'}
+
+                                {notempty name='info'}
+                                {neq name='info.id' value='$v1.id'}
+                                <option value="{$v1['id']}" {eq name='info.pid' value='$v1.id'} selected = "selected" {/eq} >{:str_repeat('&nbsp;',10)} |- {$v1.nav_name}</option>
+                                {/neq}
+                                {else/}
+                                <option value="{$v1['id']}">{:str_repeat('&nbsp;',10)} |- {$v1.nav_name}</option>
+                                {/notempty}
+
+                                {/volist}
+                                {/notempty}
+
+                                {/volist}
+                                {/notempty}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="nav_mark">标识</label>
+                        <div class="col-md-6">
+                            <input type="text" id="nav_mark" name="nav_mark" class="form-control" placeholder="" value="{notempty name='info.nav_mark'}{$info.nav_mark}{/notempty}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="nav_sort">排序</label>
+                        <div class="col-md-6">
+                            <input type="text" id="nav_sort" name="nav_sort" class="form-control" placeholder="" value="{notempty name='info.nav_sort'}{$info.nav_sort}{/notempty}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">状态</label>
+                        <div class="col-md-9">
+                            <label class="switch switch-success" for="nav_status">
+                                <input type="checkbox" id="nav_status" name="nav_status" {notempty name='info.nav_status'}checked{/notempty}   value="1" />
+                                <span data-toggle="tooltip" title="确认请点击"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group form-actions">
+                        <div class="col-md-6 col-md-offset-3">
+                            <input name="id" type="hidden" value="{notempty name='info'}{$info.id}{/notempty}" />
+                            <button type="submit" class="btn btn-block btn-success">{notempty name='info'}修改{else /}添加{/notempty}</button>
+                        </div>
+                    </div>
+                    <a id="a-click" href="#modal-regular" class="btn btn-effect-ripple btn-default" data-toggle="modal" style="display: none"></a>
+                    <!-- Regular Modal -->
+                    <div id="modal-regular" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h3 class="modal-title"><strong>结果</strong></h3>
+                                </div>
+                                <div class="modal-body">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-effect-ripple btn-danger" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Regular Modal -->
+                </form>
+                <!-- END Form Validation Form -->
+            </div>
+            <!-- END Form Validation Block -->
+        </div>
+
+        <!-- END 模块 -->
+    </div>
+    <!-- END 网页内容 -->
+    {include file="baes@public/footer" /}
+    <!-- 加载并执行仅在本页中使用的JavaScript代码 -->
+    <script src="__JS__/pages/Myweb/Nav.js"></script>
+    <script>
+        $(function(){
+            Nav.init();
+        });
+    </script>
+    </body>
+</html>

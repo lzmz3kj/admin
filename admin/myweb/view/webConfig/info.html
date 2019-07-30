@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<!--[if IE 9]>         <html class="no-js lt-ie10" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <title>{notempty name='viewname'}{$viewname}{/notempty}详情</title>
+    <!--robots用来告诉搜索机器人哪些页面需要索引，哪些页面不需要索引。content的参数有all,none,index,noindex,follow,nofollow。默认是all。-->
+    <meta name="robots" content="noindex, nofollow">
+    <!--viewport用来兼容手机网页-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- END 网页内容 -->
+    <style>
+        #tag-cloud a{cursor:pointer}
+    </style>
+    {include file="baes@public/header" /}
+    <!-- 网页内容 -->
+    <div id="page-content">
+        <!-- 标题 -->
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1>{notempty name='viewname'}{$viewname}{/notempty}详情</h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>{notempty name='viewname'}{$viewname}{/notempty}详情</li>
+                            <li><a href="{:url('/')}">后台首页</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END 标题 -->
+
+        <!-- 模块 -->
+        <div class="row col-sm-10 col-sm-offset-1 col-md-10 col-lg-10 col-lg-offset-1">
+            <!-- 表单验证块 -->
+            <div class="block">
+                <!-- 表单验证标题 -->
+                <div class="block-title">
+                    <h2>{notempty name='viewname'}{$viewname}{/notempty}详情</h2>
+                </div>
+                <!-- END 表单验证标题 -->
+
+                <!-- 表单验证表单 -->
+                <form id="form-validation" action="{:url('info')}" method="post" class="form-horizontal form-bordered " enctype="multipart/form-data" novalidate="novalidate">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="web_title">站点名称 <span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <input type="text" id="web_title" name="web_title" class="form-control" placeholder="" value="{notempty name='info'}{$info.web_title}{/notempty}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="seo_keywords">Keywords <span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <input type="text" id="seo_keywords" name="seo_keywords" class="form-control" placeholder="" value="{notempty name='info'}{$info.seo_keywords}{/notempty}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="seo_description">description <span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <input type="text" id="seo_description" name="seo_description" class="form-control" placeholder="" value="{notempty name='info'}{$info.seo_description}{/notempty}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="web_contact">联系方式 <span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <input type="text" id="web_contact" name="web_contact" class="form-control" placeholder="" value="{notempty name='info'}{$info.web_contact}{/notempty}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="web_address">联系地址 <span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <input type="text" id="web_address" name="web_address" class="form-control" placeholder="" value="{notempty name='info'}{$info.web_address}{/notempty}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="web_copyright">版权号 <span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                        <input type="text" id="web_copyright" name="web_copyright" class="form-control" placeholder="" value="{notempty name='info'}{$info.web_copyright}{/notempty}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="web_record">备案号 <span class="text-danger">*</span></label>
+                        <div class="col-md-6">
+                            <input type="text" id="web_record" name="web_record" class="form-control" placeholder="" value="{notempty name='info'}{$info.web_record}{/notempty}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="web_logo">图片</label>
+                        <div class="col-md-6">
+                            <input type="hidden" name="web_logo" value="{notempty name='info'}{$info.web_logo}{/notempty}">
+                            <a href="javascript:;" class="a-upload">
+                                <input type="file" name="file" class="image-input" id="web_logo"> 上传附件
+                            </a>
+                            <div class="preview-img">.
+                                {notempty name='info.web_logo'}
+                                <a href="/{$info.web_logo}" target="_blank"><img src="/{$info.web_logo}"></a>
+                                {/notempty}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-actions">
+                        <div class="col-md-6 col-md-offset-3">
+                            <input name="id" type="hidden" value="{notempty name='info'}{$info.id}{/notempty}" />
+                            <button type="submit" class="btn btn-block btn-success">更改</button>
+                        </div>
+                    </div>
+                    <a id="a-click" href="#modal-regular" class="btn btn-effect-ripple btn-default" data-toggle="modal" style="display: none"></a>
+                    <!-- Regular Modal -->
+                    <div id="modal-regular" class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h3 class="modal-title"><strong>结果</strong></h3>
+                                </div>
+                                <div class="modal-body">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-effect-ripple btn-danger" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END Regular Modal -->
+                </form>
+                <!-- END Form Validation Form -->
+            </div>
+            <!-- END Form Validation Block -->
+        </div>
+
+        <!-- END 模块 -->
+    </div>
+    <!-- END 网页内容 -->
+    {include file="baes@public/footer" /}
+    <!-- 加载并执行仅在本页中使用的JavaScript代码 -->
+    <script src="__JS__/ajaxfileupload.js"></script>
+    <script src="__JS__/common.js"></script>
+    <script src="__JS__/pages/Myweb/WebConfig.js"></script>
+    <script>
+        $(function(){
+            WebConfig.init();
+            $(".a-upload").on("change","input[type='file']",function(){
+                var file_id = $(this).attr("id"),url="{:url('baes/Baes/uploadFile')}";
+                ajaxUploadFile(file_id,url);
+            });
+        });
+    </script>
+    </body>
+</html>

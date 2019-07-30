@@ -66,7 +66,7 @@
                                 </li>
                                 {else/}
                                 <li>
-                                    <a href="{:url($amv1.mark)}" class="{$amv1.mark}">{$amv1.name}</a>
+                                    <a href="{:url($amv.mark.'/'.$amv1.mark)}" class="{$amv1.mark}">{$amv1.name}</a>
                                 </li>
                                 {/notempty}
 
@@ -85,6 +85,9 @@
                         <li>
                             <a href="#" class="sidebar-nav-menu baes"><i class="fa fa-chevron-left sidebar-nav-indicator sidebar-nav-mini-hide"></i><i class="gi gi-display sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">站点管理</span></a>
                             <ul>
+                                <li>
+                                    <a href="{:url('baes/AdminWeb/lists')}" class="AdminWeb">分站设置</a>
+                                </li>
                                 <li>
                                     <a href="{:url('baes/AdminModule/lists')}" class="AdminModule">模块管理</a>
                                 </li>

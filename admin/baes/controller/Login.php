@@ -12,6 +12,7 @@ class Login extends Controller
         //继承父级构造函数
         parent::__construct();
 
+        $this -> assign('viewname' , 'LZM');//视图层标记
     }
 
     //登录
@@ -40,12 +41,13 @@ class Login extends Controller
                     'status'      => true,
                     'Additional'  => url('Baes/index'),
                 ];
+                //将用户信息保存至SESSION
+                session('last_time',time()+720000);
+                session(config('AdminConfig.User'),$userInfo);
                 //调用行为监听
                 Hook::listen('admin_login',$userInfo);
-                Hook::listen('admin_log',$userInfo);
-                //将用户信息保存至SESSION
-                session('last_time',time()+1800);
-                session(config('AdminConfig.User'),$userInfo);
+                $log = ['content' => '登录','type' => 5];
+                Hook::listen('admin_log',$log);
             }else{
                 $return = [
                     'status' => false,
@@ -56,7 +58,7 @@ class Login extends Controller
             return $return;
         }
         //加载本界资源
-        return $this -> fetch('adminLogin/login');
+        return $this -> fetch('login/login');
     }
 
     //退出登录
@@ -75,11 +77,9 @@ class Login extends Controller
                 return $return;
             }
             //记录日志
-            $userInfo = session(config('AdminConfig.User'));
             $userLog = [
-                'uid' => $userInfo['id'],
-                'type' => 4,
-                'content' => '用户于 '.date('Y-m-d H:i:s',time()).' 退出登录！'
+                'type' => 5,
+                'content' => '退出登录！'
             ];
             Hook::listen('admin_log',$userLog);
             //清除缓存

@@ -3,7 +3,7 @@ namespace admin\baes\model;
 
 use think\Model;
 
-class AdminModule extends Model{
+class AdminWeb extends Model{
 
     //启用字段过滤
     protected $field = true;
@@ -23,8 +23,14 @@ class AdminModule extends Model{
 
     }
 
+    //获取器
+    public function getDatabaseAttr($value)
+    {
+        return json_decode($value,true);
+    }
+
     //查询单挑数据
-    public function findAdminModule($field = '*',$condition = ''){
+    public function findAdminWeb($field = '*',$condition = ''){
         $data = $this-> field($field)
             -> where($condition)
             -> find();
@@ -32,9 +38,9 @@ class AdminModule extends Model{
     }
 
     //查询多条数据
-    public function getAdminModule($field = '*',$condition = '',$order = 'sort desc'){
+    public function getAdminWeb($field = '*',$condition = '',$order = 'id desc'){
         $data = $this-> field($field)
-            -> where($condition)
+            -> where('web_name','like',"%{$condition['search']}%")
             -> order($order)
             -> select();
         return $data -> toArray();

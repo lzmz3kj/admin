@@ -119,8 +119,7 @@ class AdminUser extends Baes
                 //调用行为监听
                 $logData = [
                     'type' => (!empty($data['id'])?2:1),
-                    'uid' => $this -> AdminUser['id'],
-                    'content' => '用户'.$this -> AdminUser['admin_name'].(!empty($data['id'])?'修改':'添加').'管理员：'.$data['admin_name'],
+                    'content' => (!empty($data['id'])?'修改':'添加').'管理员：'.$data['admin_name'],
                 ];
                 Hook::listen('admin_log',$logData);
             }
@@ -178,8 +177,7 @@ class AdminUser extends Baes
             //调用行为监听
             $logData = [
                 'type' => 2,
-                'uid' => $this -> AdminUser['id'],
-                'content' => '用户'.$this -> AdminUser['admin_name'].(($data['status'] == 1)?'开启':'关闭').'管理员：'.$data['admin_name'],
+                'content' => (($data['status'] == 1)?'开启':'关闭').'管理员：'.$data['admin_name'],
             ];
             Hook::listen('admin_log',$logData);
             return $return;

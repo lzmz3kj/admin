@@ -9,7 +9,7 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 //多数据连接
-$db_config_cards = require_once ('database1.php');
+$database_myweb = require_once ('database_myweb.php');
 
 return [
     // +----------------------------------------------------------------------
@@ -245,7 +245,7 @@ return [
     ],
 
     //多数据库设置
-    'db_config_cards' => $db_config_cards,
+    'database_myweb' => $database_myweb,
 
     //自定义参数
     'AdminConfig' => [

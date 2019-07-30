@@ -87,9 +87,8 @@ class Baes extends Controller{
         //判断是否非法访问
         if(empty($rsc)){
             //同步记录非法请求记录
-            $text = '用户非法请求地址：'.request()->module().'--'.request()->controller().'--'.request()->action();
+            $text = '非法请求地址：'.request()->module().'--'.request()->controller().'--'.request()->action();
             $data = [
-                'uid' => $this -> AdminUser['id'],
                 'type' => 4,//异常
                 'content' => $text,
             ];

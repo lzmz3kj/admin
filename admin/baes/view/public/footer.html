@@ -28,7 +28,7 @@
         $('.LockCancellation').click(function () {
             $.ajax({
                 type : 'post',
-                url  : "{:url('Admin/Login/adminQuit')}",
+                url  : "{:url('baes/Login/adminQuit')}",
                 dataType:"json",
                 data : {
                   'exit' : true,
@@ -39,7 +39,7 @@
                     var curl = '';
                     if(data.status == true){
                         growlType = 'success';
-                        curl = "{:url('Admin/Login/adminLogin')}";
+                        curl = "{:url('baes/Login/adminLogin')}";
                     }else{
                         growlType = 'danger';
                     }

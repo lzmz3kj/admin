@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>华人街后台管理系统</title>
+    <title>{$viewname}</title>
 
     <meta name="description" content="">
     <meta name="author" content="">
@@ -103,14 +103,14 @@
 <script src="__JS__/app.js"></script>
 
 <!-- 加载并执行仅在本页中使用的JavaScript代码 -->
-<script src="__JS__/pages/Admin/AdminLoginValidation.js"></script>
+<script src="__JS__/pages/Admin/AdminLogin.js"></script>
 <script>
     function re_captcha() {
         $url = "{:captcha_src()}?";
         $url = $url  + Math.random();
         document.getElementById('getlogos').src=$url;
     }
-    $(function(){AdminLoginValidation.init();});
+    $(function(){AdminLogin.init();});
 </script>
 </body>
 </html>

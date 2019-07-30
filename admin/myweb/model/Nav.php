@@ -1,9 +1,12 @@
 <?php
-namespace admin\baes\model;
+namespace admin\myweb\model;
 
 use think\Model;
 
-class AdminModule extends Model{
+class Nav extends Model{
+
+    //设置连接库
+    protected $connection = 'database_myweb';
 
     //启用字段过滤
     protected $field = true;
@@ -24,7 +27,7 @@ class AdminModule extends Model{
     }
 
     //查询单挑数据
-    public function findAdminModule($field = '*',$condition = ''){
+    public function findNav($field = '*',$condition = ''){
         $data = $this-> field($field)
             -> where($condition)
             -> find();
@@ -32,9 +35,9 @@ class AdminModule extends Model{
     }
 
     //查询多条数据
-    public function getAdminModule($field = '*',$condition = '',$order = 'sort desc'){
+    public function getNav($field = '*',$condition = '',$order = 'id desc'){
         $data = $this-> field($field)
-            -> where($condition)
+            -> where('nav_name','like',"%{$condition['search']}%")
             -> order($order)
             -> select();
         return $data -> toArray();
