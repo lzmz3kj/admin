@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<!--[if IE 9]>         <html class="no-js lt-ie10" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <title>{notempty name='viewname'}{$viewname}{/notempty}列表</title>
+
+    <!--robots用来告诉搜索机器人哪些页面需要索引，哪些页面不需要索引。content的参数有all,none,index,noindex,follow,nofollow。默认是all。-->
+    <meta name="robots" content="noindex, nofollow">
+    <!--viewport用来兼容手机网页-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- END 网页内容 -->
+    <style>
+        .tbody-img{width: 80px}
+    </style>
+    {include file="baes@public/header" /}
+    <!-- 网页内容 -->
+    <div id="page-content">
+        <!-- 标题 -->
+        <div class="content-header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="header-section">
+                        <h1>{notempty name='viewname'}{$viewname}{/notempty}列表</h1>
+                    </div>
+                </div>
+                <div class="col-sm-6 hidden-xs">
+                    <div class="header-section">
+                        <ul class="breadcrumb breadcrumb-top">
+                            <li>{notempty name='viewname'}{$viewname}{/notempty}列表</li>
+                            <li><a href="{:url('/')}">首页</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END 标题 -->
+
+        <!-- 内容 -->
+        <div class="block full">
+
+            <!-- 搜索 -->
+            <div class="row">
+                <div class="col-xs-12  col-md-5 push-bit-top">
+                    <div class="dataTables_filter">
+                        <a href="{:url('bannerInfo')}" type="button" class="btn btn-success">添加{notempty name='viewname'}{$viewname}{/notempty}</a>
+                    </div>
+                </div>
+                <div class="col-xs-12  col-md-7 push-bit-top">
+                    <form action="{:url('bannerList')}" method="get" class="push" >
+                        <div class="input-group input-group-lg">
+                            <input type="search" id="search-term" name="search" class="form-control" placeholder="Search.." value="{notempty name='Think.get.search'}{$Think.get.search}{/notempty}">
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-effect-ripple btn-primary"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- 搜索 -->
+
+            <div class="table-responsive">
+                <div id="example-datatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+
+                    <table id="general-table" class="table table-striped table-borderless table-vcenter table-bordered dataTable no-footer text-center">
+                        <thead>
+                        <tr>
+                            <th class="text-center  col-md-2">标题</th>
+                            <th class="text-center hidden-xs hidden-xs col-md-2">路径</th>
+                            <th class="text-center hidden-sm hidden-xs col-md-2">图片</th>
+                            <th class="text-center hidden-sm col-md-2">排序</th>
+                            <th class="text-center col-md-2"><i class="fa fa-flash"></i></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {notempty name='list'}
+                        {volist name='list' id='v'}
+                        <tr>
+                            <td>{$v.title}</td>
+                            <td class="hidden-sm hidden-xs">{$v.url}</td>
+                            <td class="hidden-sm hidden-xs"><a href="{$v.img_path}"><img src="{$v.img_path}" style="width: 100px" /> </a> </td>
+                            <td class="hidden-sm hidden-xs">{$v.sort}</td>
+                            <td>
+                                <a href="{:url('bannerInfo',['id' => $v.id])}" data-toggle="tooltip" title="" class="btn btn-effect-ripple btn-xs btn-info" style="overflow: hidden; position: relative;" data-original-title="修改{$v.title}"><i class="fa fa-pencil"></i></a>
+                            </td>
+                        </tr>
+                        {/volist}
+                        {/notempty}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END 内容 -->
+        <div id="modal-fade" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <input type="hidden" id="delete-path" value="{url('features')}" />
+                        <button type="button" class="close cancels" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title"><strong>删除</strong></h3>
+                    </div>
+                    <div class="modal-body" >
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="__token__" value="{$Request.token}" />
+                        <button id="certain" name="sub" type="button" class="btn btn-effect-ripple btn-primary">确定</button>
+                        <button type="button" class="btn btn-effect-ripple btn-danger cancels" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END 网页内容 -->
+    {include file="baes@public/footer" /}
+    <!-- 加载并执行仅在本页中使用的JavaScript代码 -->
+    <script src="__JS__/common.js"></script>
+    <script src="__JS__/pages/Tables.js"></script>
+    <script>
+        $(function () {
+            Tables.init();
+            //显示类型
+            $('.show_list').click(function () {
+                var hidden_id = $(this).attr('href');
+                var data = $('.hidden_'+hidden_id);
+                if(data.hasClass('hidden')){
+                    data.removeClass('hidden');
+                    $(this).find('i').removeClass('fa-chevron-right');
+                    $(this).find('i').addClass('fa-chevron-down');
+                }else{
+                    data.addClass('hidden');
+                    $(this).find('i').removeClass('fa-chevron-down');
+                    $(this).find('i').addClass('fa-chevron-right');
+                }
+                return false;
+            });
+            //异步修改功能状态
+            $('.checked_data').change(function () {
+                var status = '';
+                var change = $(this);
+                if(change.is(':checked')){
+                    status = 1;
+                }else{
+                    status = 2;
+                }
+                var data = {
+                    'nav_status' : status,
+                    'id'   : $(this).attr('ids'),
+                    '__token__' :  $('meta[name="csrf-token"]').attr('content'),
+                };
+                ajaxForm("{:url('navShut')}",data);
+            })
+
+        });
+    </script>
+    </body>
+</html>
