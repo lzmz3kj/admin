@@ -44,11 +44,11 @@
             <div class="row">
                 <div class="col-xs-12  col-md-5 push-bit-top">
                     <div class="dataTables_filter">
-                        <a href="{:url('bannerInfo')}" type="button" class="btn btn-success">添加{notempty name='viewname'}{$viewname}{/notempty}</a>
+                        <a href="{:url('blogsInfo')}" type="button" class="btn btn-success">添加{notempty name='viewname'}{$viewname}{/notempty}</a>
                     </div>
                 </div>
                 <div class="col-xs-12  col-md-7 push-bit-top">
-                    <form action="{:url('bannerList')}" method="get" class="push" >
+                    <form action="{:url('blogsList')}" method="get" class="push" >
                         <div class="input-group input-group-lg">
                             <input type="search" id="search-term" name="search" class="form-control" placeholder="Search.." value="{notempty name='Think.get.search'}{$Think.get.search}{/notempty}">
                             <div class="input-group-btn">
@@ -67,9 +67,10 @@
                         <thead>
                         <tr>
                             <th class="text-center  col-md-2">标题</th>
-                            <th class="text-center hidden-xs hidden-xs col-md-2">路径</th>
+                            <th class="text-center hidden-xs hidden-xs col-md-2">父级</th>
                             <th class="text-center hidden-sm hidden-xs col-md-2">图片</th>
                             <th class="text-center hidden-sm col-md-2">排序</th>
+                            <th class="text-center hidden-sm col-md-2">状态</th>
                             <th class="text-center col-md-2"><i class="fa fa-flash"></i></th>
                         </tr>
                         </thead>
@@ -77,15 +78,84 @@
                         {notempty name='list'}
                         {volist name='list' id='v'}
                         <tr>
-                            <td>{$v.title}</td>
-                            <td class="hidden-sm hidden-xs">{$v.url}</td>
-                            <td class="hidden-sm hidden-xs"><a href="{$Think.config.upload_path}/{$v.img_path}" target="_blank"><img src="{$Think.config.upload_path}/{$v.img_path}" style="width: 100px" /> </a> </td>
-                            <td class="hidden-sm hidden-xs">{$v.sort}</td>
+                            <td><a class="show_list text-info" href="{$v['id']}">{$v.category_title}
+                                {notempty name="v.has_son"}&nbsp;&nbsp;<i class="fa fa-chevron-right"></i>{/notempty}
+                            </a></td>
+                            <td class="hidden-sm hidden-xs"><strong>顶级分类</strong></td>
+                            <td class="hidden-sm hidden-xs">
+                                {notempty name='v.category_banner'}
+                                <a href="{$Think.config.upload_path}/{$v.category_banner}" target="_blank"><img src="{$Think.config.upload_path}/{$v.category_banner}" style="width: 100px" /> </a>
+                                {else /}
+                                无
+                                {/notempty}
+                            </td>
+                            <td class="hidden-sm hidden-xs">{$v.category_sort}</td>
+                            <td class="hidden-sm">
+                                {notempty name='v.has_son'}
+                                <strong class="text-success">开启中</strong>
+                                {else/}
+                                <label class="switch switch-success">
+                                    <input class="checked_data" ids="{$v.id}" type="checkbox" {eq name="v.status" value="1"} checked {/eq} value="1">
+                                    <span></span>
+                                </label>
+                                {/notempty}
+                            </td>
                             <td>
-                                <a href="{:url('bannerInfo',['id' => $v.id])}" data-toggle="tooltip" title="" class="btn btn-effect-ripple btn-xs btn-info" style="overflow: hidden; position: relative;" data-original-title="修改{$v.title}"><i class="fa fa-pencil"></i></a>
-                                <a href="#modal-fade"  name="{$v.id}"  data-toggle="modal" title="删除" class="btn btn-effect-ripple btn-xs btn-danger deletes " style="overflow: hidden; position: relative;" ><i class="fa fa-times"></i></a>
+                                <a href="{:url('blogsInfo',['id' => $v.id])}" data-toggle="tooltip" title="" class="btn btn-effect-ripple btn-xs btn-info" style="overflow: hidden; position: relative;" data-original-title="修改{$v.category_title}"><i class="fa fa-pencil"></i></a>
                             </td>
                         </tr>
+                        {notempty name='v.has_son'}
+                        {volist name='v.has_son' id='v1'}
+                        <tr class="hidden hidden_{$v['id']}">
+                            <td><a class="show_list text-warning" href="{$v1['id']}">{:str_repeat('&nbsp;',5)} |- {$v1.category_title}
+                                {notempty name="v1.has_son"}&nbsp;&nbsp;<i class="fa fa-chevron-right"></i>{/notempty}
+                            </a></td>
+                            <td class="hidden-sm hidden-xs"><strong class="text-info">{$v.category_title}</strong></td>
+                            <td class="hidden-sm hidden-xs">
+                                {notempty name='v1.category_banner'}
+                                <a href="{$Think.config.upload_path}/{$v1.category_banner}" target="_blank"><img src="{$Think.config.upload_path}/{$v1.category_banner}" style="width: 100px" /> </a>
+                                {else /}
+                                无
+                                {/notempty}
+                            </td>
+                            <td class="hidden-sm hidden-xs">{$v1.category_sort}</td>
+                            <td class="hidden-sm">
+                                <label class="switch switch-success">
+                                    <input class="checked_data" ids="{$v1.id}" type="checkbox" {eq name="v1.status" value="1"} checked {/eq} value="1">
+                                    <span></span>
+                                </label>
+                            </td>
+                            <td class="text-center">
+                                <a href="{:url('blogsInfo',['id' => $v1.id])}" data-toggle="tooltip" title="" class="btn btn-effect-ripple btn-xs btn-info" style="overflow: hidden; position: relative;" data-original-title="修改{$v1.category_title}"><i class="fa fa-pencil"></i></a>
+                            </td>
+                        </tr>
+                        {notempty name='v1.has_son'}
+                        {volist name='v1.has_son' id='v2'}
+                        <tr class="hidden hidden_{$v1['id']}">
+                            <td><strong>{:str_repeat('&nbsp;',10)} |- {$v2.category_title}</strong></td>
+                            <td class="hidden-sm hidden-xs"><strong class="text-warning">{$v1.category_title}</strong></td>
+                            <td class="hidden-sm hidden-xs">
+                                {notempty name='v2.category_banner'}
+                                <a href="{$Think.config.upload_path}/{$v2.category_banner}" target="_blank"><img src="{$Think.config.upload_path}/{$v2.category_banner}" style="width: 100px" /> </a>
+                                {else /}
+                                无
+                                {/notempty}
+                            </td>
+                            <td class="hidden-sm hidden-xs">{$v2.category_sort}</td>
+                            <td class="hidden-sm">
+                                <label class="switch switch-success">
+                                    <input class="checked_data" ids="{$v2.id}" type="checkbox" {eq name="v2.status" value="1"} checked {/eq} value="1">
+                                    <span></span>
+                                </label>
+                            </td>
+                            <td class="text-center">
+                                <a href="{:url('blogsInfo',['id' => $v2.id])}" data-toggle="tooltip" title="" class="btn btn-effect-ripple btn-xs btn-info" style="overflow: hidden; position: relative;" data-original-title="修改{$v2.category_title}"><i class="fa fa-pencil"></i></a>
+                            </td>
+                        </tr>
+                        {/volist}
+                        {/notempty}
+                        {/volist}
+                        {/notempty}
                         {/volist}
                         {/notempty}
                         </tbody>
@@ -98,7 +168,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <input type="hidden" id="delete-path" value="{:url('bannerDel')}" />
+                        <input type="hidden" id="delete-path" value="{url('features')}" />
                         <button type="button" class="close cancels" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h3 class="modal-title"><strong>删除</strong></h3>
                     </div>
@@ -146,11 +216,11 @@
                     status = 2;
                 }
                 var data = {
-                    'nav_status' : status,
+                    'status' : status,
                     'id'   : $(this).attr('ids'),
                     '__token__' :  $('meta[name="csrf-token"]').attr('content'),
                 };
-                ajaxForm("{:url('navShut')}",data);
+                ajaxForm("{:url('blogsShut')}",data);
             })
 
         });

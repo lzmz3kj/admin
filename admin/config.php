@@ -252,5 +252,6 @@ return [
         'Module' => 'ModuleList',//模块列表
         'User' => 'UserInfo',//后台用户信息
     ],
+    'upload_path' => 'public/upload/',
     'baseMag' => ['Discuzx' => '《论坛》','ClassAd' => '《分类广告》'],
 ];

@@ -28,6 +28,7 @@
                     <div class="header-section">
                         <ul class="breadcrumb breadcrumb-top">
                             <li>{notempty name='viewname'}{$viewname}{/notempty}详情</li>
+                            <li><a href="{:url('navList')}">{notempty name='viewname'}{$viewname}{/notempty}列表</a></li>
                             <li><a href="{:url('/')}">后台首页</a></li>
                         </ul>
                     </div>
@@ -42,73 +43,54 @@
             <div class="block">
                 <!-- 表单验证标题 -->
                 <div class="block-title">
-                    <h2>{notempty name='viewname'}{$viewname}{/notempty}详情</h2>
+                    <h2>基本信息</h2>
                 </div>
                 <!-- END 表单验证标题 -->
 
                 <!-- 表单验证表单 -->
-                <form id="form-validation" action="{:url('info')}" method="post" class="form-horizontal form-bordered " enctype="multipart/form-data" novalidate="novalidate">
+                <form id="form-validation" action="{:url('bannerSubmit')}" method="post" class="form-horizontal form-bordered " enctype="multipart/form-data" novalidate="novalidate">
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="web_title">站点名称 <span class="text-danger">*</span></label>
+                        <label class="col-md-3 control-label" for="title">轮播图标题 <span class="text-danger">*</span></label>
                         <div class="col-md-6">
-                            <input type="text" id="web_title" name="web_title" class="form-control" placeholder="" value="{notempty name='info'}{$info.web_title}{/notempty}">
+                            <input type="text" id="title" name="title" class="form-control" placeholder="" value="{notempty name='info'}{$info.title}{/notempty}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="seo_keywords">Keywords <span class="text-danger">*</span></label>
+                        <label class="col-md-3 control-label" for="url">跳转路径</label>
                         <div class="col-md-6">
-                            <input type="text" id="seo_keywords" name="seo_keywords" class="form-control" placeholder="" value="{notempty name='info'}{$info.seo_keywords}{/notempty}">
+                            <input type="text" id="url" name="url" class="form-control" placeholder="" value="{notempty name='info'}{$info.url}{/notempty}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="seo_description">description <span class="text-danger">*</span></label>
+                        <label class="col-md-3 control-label" for="discription">描述</label>
                         <div class="col-md-6">
-                            <input type="text" id="seo_description" name="seo_description" class="form-control" placeholder="" value="{notempty name='info'}{$info.seo_description}{/notempty}">
+                            <textarea type="text" id="discription" name="discription" class="form-control" placeholder="" >{notempty name='info'}{$info.discription}{/notempty}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="web_contact">联系方式 <span class="text-danger">*</span></label>
+                        <label class="col-md-3 control-label" for="sort">排序</label>
                         <div class="col-md-6">
-                            <input type="text" id="web_contact" name="web_contact" class="form-control" placeholder="" value="{notempty name='info'}{$info.web_contact}{/notempty}">
+                            <input type="text" id="sort" name="sort" class="form-control" placeholder="" value="{notempty name='info'}{$info.sort}{/notempty}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="web_address">联系地址 <span class="text-danger">*</span></label>
+                        <label class="col-md-3 control-label" for="img_path">图片</label>
                         <div class="col-md-6">
-                            <input type="text" id="web_address" name="web_address" class="form-control" placeholder="" value="{notempty name='info'}{$info.web_address}{/notempty}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label" for="web_copyright">版权号 <span class="text-danger">*</span></label>
-                        <div class="col-md-6">
-                        <input type="text" id="web_copyright" name="web_copyright" class="form-control" placeholder="" value="{notempty name='info'}{$info.web_copyright}{/notempty}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label" for="web_record">备案号 <span class="text-danger">*</span></label>
-                        <div class="col-md-6">
-                            <input type="text" id="web_record" name="web_record" class="form-control" placeholder="" value="{notempty name='info'}{$info.web_record}{/notempty}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label" for="web_logo">图片</label>
-                        <div class="col-md-6">
-                            <input type="hidden" name="web_logo" value="{notempty name='info'}{$info.web_logo}{/notempty}">
+                            <input type="hidden" name="img_path" value="{notempty name='info'}{$info.img_path}{/notempty}">
                             <a href="javascript:;" class="a-upload">
-                                <input type="file" name="file" class="image-input" id="web_logo"> 上传附件
+                                <input type="file" name="file" class="image-input" id="img_path"> 上传附件
                             </a>
                             <div class="preview-img">.
-                                {notempty name='info.web_logo'}
-                                <a href="/{$Think.config.upload_path}{$info.web_logo}" target="_blank"><img src="{$Think.config.upload_path}{$info.web_logo}"></a>
+                                {notempty name='info.img_path'}
+                                <a href="/{$Think.config.upload_path}{$info.img_path}" target="_blank"><img src="/{$Think.config.upload_path}{$info.img_path}"></a>
                                 {/notempty}
                             </div>
                         </div>
                     </div>
-
                     <div class="form-group form-actions">
                         <div class="col-md-6 col-md-offset-3">
                             <input name="id" type="hidden" value="{notempty name='info'}{$info.id}{/notempty}" />
-                            <button type="submit" class="btn btn-block btn-success">更改</button>
+                            <button type="submit" class="btn btn-block btn-success">{notempty name='info'}修改{else /}添加{/notempty}</button>
                         </div>
                     </div>
                     <a id="a-click" href="#modal-regular" class="btn btn-effect-ripple btn-default" data-toggle="modal" style="display: none"></a>
@@ -142,13 +124,13 @@
     <!-- 加载并执行仅在本页中使用的JavaScript代码 -->
     <script src="__JS__/ajaxfileupload.js"></script>
     <script src="__JS__/common.js"></script>
-    <script src="__JS__/pages/Myweb/WebConfig.js"></script>
+    <script src="__JS__/pages/Myweb/Ad.js"></script>
     <script>
         $(function(){
-            WebConfig.init();
+            Ad.init();
             $(".a-upload").on("change","input[type='file']",function(){
                 var file_id = $(this).attr("id"),url="{:url('baes/Baes/uploadFile')}";
-                ajaxUploadFile(file_id,url,'logo');
+                ajaxUploadFile(file_id,url,'banner');
             });
         });
     </script>

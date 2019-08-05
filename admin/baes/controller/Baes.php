@@ -101,22 +101,17 @@ class Baes extends Controller{
     public function uploadFile(){
         $file = request()->file('file');
         // 移动到框架应用根目录/public/uploads/ 目录下
-        $data = input('post.');
-        if(!empty($data['path'])){
-            $path = 'public/'.$data['path'];
-        }else{
-            $path = 'public/upload/file';
-        }
+        $path = config('upload_path').input('post.path');
 
         $info = $file->move('./'.$path);
         if(!empty($info)){
             $fileName = $info->getSaveName();
             $imgInfo = getimagesize('./'.$path.'/'.$fileName);
             $return = [
-                'path'  => $path,
+                'path'  => config('upload_path').'/',
                 'width' => $imgInfo[0],
                 'height' => $imgInfo[1],
-                'filename'  => $fileName,
+                'filename'  => input('post.path').'/'.$fileName,
                 'fileUrl'   => $path.'/'.$fileName,
                 'token'     => request()->token()
             ];
