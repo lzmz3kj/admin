@@ -44,11 +44,11 @@
             <div class="row">
                 <div class="col-xs-12  col-md-5 push-bit-top">
                     <div class="dataTables_filter">
-                        <a href="{:url('blogsInfo')}" type="button" class="btn btn-success">添加{notempty name='viewname'}{$viewname}{/notempty}</a>
+                        <a href="{:url('categoryInfo')}" type="button" class="btn btn-success">添加{notempty name='viewname'}{$viewname}{/notempty}</a>
                     </div>
                 </div>
                 <div class="col-xs-12  col-md-7 push-bit-top">
-                    <form action="{:url('blogsList')}" method="get" class="push" >
+                    <form action="{:url('categoryList')}" method="get" class="push" >
                         <div class="input-group input-group-lg">
                             <input type="search" id="search-term" name="search" class="form-control" placeholder="Search.." value="{notempty name='Think.get.search'}{$Think.get.search}{/notempty}">
                             <div class="input-group-btn">
@@ -101,7 +101,7 @@
                                 {/notempty}
                             </td>
                             <td>
-                                <a href="{:url('blogsInfo',['id' => $v.id])}" data-toggle="tooltip" title="" class="btn btn-effect-ripple btn-xs btn-info" style="overflow: hidden; position: relative;" data-original-title="修改{$v.category_title}"><i class="fa fa-pencil"></i></a>
+                                <a href="{:url('categoryInfo',['id' => $v.id])}" data-toggle="tooltip" title="" class="btn btn-effect-ripple btn-xs btn-info" style="overflow: hidden; position: relative;" data-original-title="修改{$v.category_title}"><i class="fa fa-pencil"></i></a>
                             </td>
                         </tr>
                         {notempty name='v.has_son'}
@@ -126,7 +126,7 @@
                                 </label>
                             </td>
                             <td class="text-center">
-                                <a href="{:url('blogsInfo',['id' => $v1.id])}" data-toggle="tooltip" title="" class="btn btn-effect-ripple btn-xs btn-info" style="overflow: hidden; position: relative;" data-original-title="修改{$v1.category_title}"><i class="fa fa-pencil"></i></a>
+                                <a href="{:url('categoryInfo',['id' => $v1.id])}" data-toggle="tooltip" title="" class="btn btn-effect-ripple btn-xs btn-info" style="overflow: hidden; position: relative;" data-original-title="修改{$v1.category_title}"><i class="fa fa-pencil"></i></a>
                             </td>
                         </tr>
                         {notempty name='v1.has_son'}
@@ -149,7 +149,7 @@
                                 </label>
                             </td>
                             <td class="text-center">
-                                <a href="{:url('blogsInfo',['id' => $v2.id])}" data-toggle="tooltip" title="" class="btn btn-effect-ripple btn-xs btn-info" style="overflow: hidden; position: relative;" data-original-title="修改{$v2.category_title}"><i class="fa fa-pencil"></i></a>
+                                <a href="{:url('categoryInfo',['id' => $v2.id])}" data-toggle="tooltip" title="" class="btn btn-effect-ripple btn-xs btn-info" style="overflow: hidden; position: relative;" data-original-title="修改{$v2.category_title}"><i class="fa fa-pencil"></i></a>
                             </td>
                         </tr>
                         {/volist}
@@ -220,7 +220,7 @@
                     'id'   : $(this).attr('ids'),
                     '__token__' :  $('meta[name="csrf-token"]').attr('content'),
                 };
-                ajaxForm("{:url('blogsShut')}",data);
+                ajaxForm("{:url('categoryShut')}",data);
             })
 
         });

@@ -40,7 +40,7 @@ class Blogs extends Baes
     }
 
     //博客分类
-    public function blogscategory(){
+    public function blogsCategory(){
         $list = model('BlogsCategory') -> getBlogsCategory('*',['search' => input('search')]);
         $list = makeTree($list);
         $this -> assign('list' , $list);
@@ -49,7 +49,11 @@ class Blogs extends Baes
 
     //博客分类详情
     public function categoryInfo(){
-
+        //详情
+        if($id = input('id')){
+            $info = model('BlogsCategory') -> findBlogsCategory('*',['id' => $id]);
+            $this -> assign('info' , $info);
+        }
         return $this -> fetch('blogs/category_info');
     }
 

@@ -16,7 +16,7 @@ class Ad extends Baes
         $this -> allow();
     }
 
-    //点点信息
+    //轮播图列表
     public function bannerList()
     {
         $list = model('Banner') ->getBanner('*',['search' => input('search')]);
@@ -27,7 +27,7 @@ class Ad extends Baes
     }
 
 
-    //站点导航
+    //轮播图详情
     public function bannerInfo(){
         //详情
         if($id = input('id')){
@@ -39,7 +39,7 @@ class Ad extends Baes
         return $this -> fetch('ad/bannerinfo');
     }
 
-    //导航啦提交操作
+    //轮播图提交操作
     public function bannerSubmit(){
         if(request() -> isAjax()){
             $data = input('post.');

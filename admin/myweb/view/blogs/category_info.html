@@ -28,7 +28,7 @@
                     <div class="header-section">
                         <ul class="breadcrumb breadcrumb-top">
                             <li>{notempty name='viewname'}{$viewname}{/notempty}详情</li>
-                            <li><a href="{:url('navList')}">{notempty name='viewname'}{$viewname}{/notempty}列表</a></li>
+                            <li><a href="{:url('blogsCategory')}">{notempty name='viewname'}{$viewname}{/notempty}列表</a></li>
                             <li><a href="{:url('/')}">后台首页</a></li>
                         </ul>
                     </div>
@@ -48,27 +48,27 @@
                 <!-- END 表单验证标题 -->
 
                 <!-- 表单验证表单 -->
-                <form id="form-validation" action="{:url('navSubmit')}" method="post" class="form-horizontal form-bordered " enctype="multipart/form-data" novalidate="novalidate">
+                <form id="form-validation" action="{:url('categorySubmit')}" method="post" class="form-horizontal form-bordered " enctype="multipart/form-data" novalidate="novalidate">
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="nav_name">导航栏名称 <span class="text-danger">*</span></label>
+                        <label class="col-md-3 control-label" for="category_title">分类标题 <span class="text-danger">*</span></label>
                         <div class="col-md-6">
-                            <input type="text" id="nav_name" name="nav_name" class="form-control" placeholder="" value="{notempty name='info'}{$info.nav_name}{/notempty}">
+                            <input type="text" id="category_title" name="category_title" class="form-control" placeholder="" value="{notempty name='info'}{$info.category_title}{/notempty}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="pid">父级导航<span class="text-danger">*</span></label>
+                        <label class="col-md-3 control-label" for="pid">选择分类级别</label>
                         <div class="col-md-6">
                             <select id="pid" name="pid" class="form-control">
-                                <option value="0">顶级导航</option>
+                                <option value="0">顶级分类</option>
                                 {notempty name='list'}
                                 {volist name='list' id='v'}
 
                                 {notempty name='info'}
                                 {neq name='info.id' value='$v.id'}
-                                <option value="{$v['id']}" {eq name='info.pid' value='$v.id'} selected = "selected" {/eq}>{:str_repeat('&nbsp;',5)} |- {$v.nav_name}</option>
+                                <option value="{$v['id']}" {eq name='info.pid' value='$v.id'} selected = "selected" {/eq}>{:str_repeat('&nbsp;',5)} |- {$v.category_title}</option>
                                 {/neq}
                                 {else/}
-                                <option value="{$v['id']}">{:str_repeat('&nbsp;',5)} |- {$v.nav_name}</option>
+                                <option value="{$v['id']}">{:str_repeat('&nbsp;',5)} |- {$v.category_title}</option>
                                 {/notempty}
 
                                 {notempty name='v.has_son'}
@@ -76,10 +76,10 @@
 
                                 {notempty name='info'}
                                 {neq name='info.id' value='$v1.id'}
-                                <option value="{$v1['id']}" {eq name='info.pid' value='$v1.id'} selected = "selected" {/eq} >{:str_repeat('&nbsp;',10)} |- {$v1.nav_name}</option>
+                                <option value="{$v1['id']}" {eq name='info.pid' value='$v1.id'} selected = "selected" {/eq} >{:str_repeat('&nbsp;',10)} |- {$v1.category_title}</option>
                                 {/neq}
                                 {else/}
-                                <option value="{$v1['id']}">{:str_repeat('&nbsp;',10)} |- {$v1.nav_name}</option>
+                                <option value="{$v1['id']}">{:str_repeat('&nbsp;',10)} |- {$v1.category_title}</option>
                                 {/notempty}
 
                                 {/volist}
@@ -91,22 +91,54 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="nav_mark">标识</label>
+                        <label class="col-md-3 control-label" for="category_banner">分类展示图</label>
                         <div class="col-md-6">
-                            <input type="text" id="nav_mark" name="nav_mark" class="form-control" placeholder="" value="{notempty name='info.nav_mark'}{$info.nav_mark}{/notempty}">
+                            <input type="hidden" name="category_banner" value="{notempty name='info'}{$info.category_banner}{/notempty}">
+                            <a href="javascript:;" class="a-upload">
+                                <input type="file" name="file" class="image-input" id="category_banner"> 上传附件
+                            </a>
+                            <div class="preview-img">.
+                                {notempty name='info.category_banner'}
+                                <a href="/{$Think.config.upload_path}{$info.category_banner}" target="_blank"><img src="/{$Think.config.upload_path}{$info.category_banner}"></a>
+                                {/notempty}
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label" for="nav_sort">排序</label>
+                        <label class="col-md-3 control-label" for="category_discription">分类描述</label>
                         <div class="col-md-6">
-                            <input type="text" id="nav_sort" name="nav_sort" class="form-control" placeholder="" value="{notempty name='info.nav_sort'}{$info.nav_sort}{/notempty}">
+                            <textarea type="text" id="category_discription" name="category_discription" class="form-control" placeholder="" >{notempty name='info'}{$info.category_discription}{/notempty}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="category_sort">排序</label>
+                        <div class="col-md-6">
+                            <input type="text" id="category_sort" name="category_sort" class="form-control" placeholder="" value="{notempty name='info'}{$info.category_sort}{/notempty}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="seo_keywords">SEO关键词</label>
+                        <div class="col-md-6">
+                            <input type="text" id="seo_keywords" name="seo_keywords" class="form-control" placeholder="" value="{notempty name='info'}{$info.seo_keywords}{/notempty}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="seo_discription">SEO描述</label>
+                        <div class="col-md-6">
+                            <textarea type="text" id="seo_discription" name="seo_discription" class="form-control" placeholder="" >{notempty name='info'}{$info.seo_discription}{/notempty}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="blogs_page_num">分页数量</label>
+                        <div class="col-md-6">
+                            <input type="text" id="blogs_page_num" name="blogs_page_num" class="form-control" placeholder="" value="{notempty name='info'}{$info.blogs_page_num}{/notempty}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-3 control-label">状态</label>
                         <div class="col-md-9">
-                            <label class="switch switch-success" for="nav_status">
-                                <input type="checkbox" id="nav_status" name="nav_status" {notempty name='info.nav_status'}checked{/notempty}   value="1" />
+                            <label class="switch switch-success" for="status">
+                                <input type="checkbox" id="status" name="status" {notempty name='info.status'}checked{/notempty}   value="1" />
                                 <span data-toggle="tooltip" title="确认请点击"></span>
                             </label>
                         </div>
@@ -146,10 +178,16 @@
     <!-- END 网页内容 -->
     {include file="baes@public/footer" /}
     <!-- 加载并执行仅在本页中使用的JavaScript代码 -->
-    <script src="__JS__/pages/Myweb/Nav.js"></script>
+    <script src="__JS__/ajaxfileupload.js"></script>
+    <script src="__JS__/common.js"></script>
+    <script src="__JS__/pages/Myweb/Blogs.js"></script>
     <script>
         $(function(){
-            Nav.init();
+            Blogs.init();
+            $(".a-upload").on("change","input[type='file']",function(){
+                var file_id = $(this).attr("id"),url="{:url('baes/Baes/uploadFile')}";
+                ajaxUploadFile(file_id,url,'blogs');
+            });
         });
     </script>
     </body>
